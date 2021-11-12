@@ -9,6 +9,10 @@ from models.pre_order import PreOrder
 
 import repositories.artist_repository as artist_repository
 
+import os
+os.system('psql -d rubberduck_records -f db/rubberduck_records.sql')
+
+
 artist_1 = Artist("David Bowie")
 artist_2 = Artist("Iggy Pop")
 album_1 = Album(artist_1, "Low")
@@ -24,6 +28,11 @@ print( result.__dict__ )
 result = artist_repository.add_artist(artist_2)
 print("------------- ADDS 2nd ARTIST ----------------")
 print( result.__dict__ )
+
+results = artist_repository.show_all()
+print("------------- PRINT ALL ARTISTS ----------------")
+for row in results:
+    print(row.__dict__)
 
 
 
