@@ -8,7 +8,7 @@ class ItemTest(unittest.TestCase):
     def setUp(self):
         self.artist_1 = Artist("David Bowie")
         self.album_1 = Album(self.artist_1, "Low")
-        self.item_1 = Item(self.album_1, "CD", 6.50, 9.99, 7, 2, 1)
+        self.item_1 = Item(self.album_1, "CD", 6.50, 9.99, 7, 2)
 
     def test_item_has_album(self):
         self.assertEqual(self.item_1.album.artist.name, "David Bowie")
@@ -28,6 +28,4 @@ class ItemTest(unittest.TestCase):
     def test_item_has_ordered_value(self):
         self.assertEqual(self.item_1.ordered, 2)
 
-    def test_item_has_pre_booked_value(self):
-        self.assertEqual(self.item_1.pre_booked, 1)
 

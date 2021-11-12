@@ -6,17 +6,10 @@ from models.item import Item
 import repositories.artist_repository as artist_repository
 import repositories.album_repository as album_repository
 
-# album_id INT REFERENCES albums(id),
-#   support VARCHAR(255) NOT NULL,
-#   cost FLOAT NOT NULL,
-#   selling_price FLOAT NOT NULL,
-#   in_stock INT,
-#   ordered INT,
-#   pre_booked INT
 
 def add_item(item):
-    sql = "INSERT INTO items (album_id, support, cost, selling_price, in_stock, ordered, pre_booked) VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING *"
-    values = [item.album.id, item.support, item.cost, item. selling_price, item.in_stock, item. ordered, item.pre_booked]
+    sql = "INSERT INTO items (album_id, support, cost, selling_price, in_stock, ordered) VALUES (%s, %s, %s, %s, %s, %s) RETURNING *"
+    values = [item.album.id, item.support, item.cost, item.selling_price, item.in_stock, item.ordered]
     results = run_sql(sql, values)
     id = results[0]['id']
     item.id = id
@@ -28,7 +21,7 @@ def show_all():
     results = run_sql(sql)
     for row in results:
         album = album_repository.select_1_album_by_id(row['album_id'])
-        item = Item(album, row['support'], row['cost'], row['selling_price'], row['in_stock'], row['ordered'], row['pre_booked'], row['id'])
+        item = Item(album, row['support'], row['cost'], row['selling_price'], row['in_stock'], row['ordered'], row['id'])
         items.append(item)
     return items
 
@@ -37,7 +30,7 @@ def select_1_item_by_id(id):
     values = [id]
     result = run_sql(sql, values)[0]
     album = album_repository.select_1_album_by_id(result['album_id'])
-    item = Item(album, result['support'], result['cost'], result['selling_price'], result['in_stock'], result['ordered'], result['pre_booked'], result['id'])
+    item = Item(album, result['support'], result['cost'], result['selling_price'], result['in_stock'], result['ordered'], result['id'])
     return item
 
 def delete_1_item_by_id(id):

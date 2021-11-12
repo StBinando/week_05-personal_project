@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS pre_orders;
+DROP TABLE IF EXISTS customers_items;
 DROP TABLE IF EXISTS customers;
 DROP TABLE IF EXISTS items;
 DROP TABLE IF EXISTS albums;
@@ -22,8 +22,7 @@ CREATE TABLE items (
   cost FLOAT NOT NULL,
   selling_price FLOAT NOT NULL,
   in_stock INT,
-  ordered INT,
-  pre_booked INT
+  ordered INT
 );
 
 CREATE TABLE customers (
@@ -32,7 +31,7 @@ CREATE TABLE customers (
   contact VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE pre_orders (
+CREATE TABLE customers_items (
   id SERIAL PRIMARY KEY,
   customer_id INT REFERENCES customers(id),
   item_id INT REFERENCES items(id)
