@@ -23,7 +23,7 @@ album_1 = Album(artist_1, "Low")
 album_2 = Album(artist_1, "Pin-Up")
 
 item_1 = Item(album_1, "CD", 6.50, 9.99, 7, 2, 1)
-item_2 = Item(album_1, "Vynil", 9.50, 18.99, 2, 0, 0)
+item_2 = Item(album_1, "Vinyl", 9.50, 18.99, 2, 0, 0)
 
 customer_1 = Customer("John Smith", "+447857634091")
 
