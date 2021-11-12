@@ -4,8 +4,6 @@ from models.artist import Artist
 from models.album import Album
 from models.item import Item
 
-#  def __init__(self, album, support, cost, selling_price, in_stock, ordered, pre_booked, id = None):
-
 class ItemTest(unittest.TestCase):
     def setUp(self):
         self.artist_1 = Artist("David Bowie")
