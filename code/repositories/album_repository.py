@@ -27,7 +27,6 @@ def select_1_album_by_id(id):
     sql = "SELECT * FROM albums where id = %s"
     values = [id]
     result = run_sql(sql, values)[0]
-    # artist = Artist(result['name'], result['id'])
     artist = artist_repository.select_1_artist_by_id(result['artist_id'])
     album = Album(artist, result['title'], result['id'])
     return album
@@ -36,3 +35,4 @@ def delete_1_album_by_id(id):
     sql = "DELETE FROM albums WHERE id = %s"
     values = [id]
     run_sql(sql, values)
+    
