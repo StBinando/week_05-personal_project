@@ -48,7 +48,6 @@ def select_by_selection(selection = "all_albums"):
             albums_id.append(album.id)
         sql = "SELECT * FROM items where album_id IN %s"
         values = [tuple(albums_id)]
-        print(albums_id)
     items = []
     results = run_sql(sql, values)
     for row in results:
@@ -68,5 +67,19 @@ def select_filtered(filter = "all"):
         album = album_repository.select_1_album_by_id(row['album_id'])
         item = Item(album, row['support'], row['cost'], row['selling_price'], row['in_stock'], row['ordered'], row['id'])
         items.append(item)
+    return items
+
+def select_by_filter_and_selection(filter = "all", selection = "all_albums"):
+    filtered = select_filtered(filter)
+    selected = select_by_selection(selection)
+    items_id =[]
+    for s in selected:
+        for f in filtered:
+            if s.id == f.id:
+                items_id.append(s.id)
+    items_id = set(items_id)
+    items =[]
+    for id in items_id:
+        items.append(select_1_item_by_id(id))
     return items
 

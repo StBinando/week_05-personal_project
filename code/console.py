@@ -127,44 +127,57 @@ import repositories.item_repository as item_repository
 #     print(row.__dict__)
 
 
-print("------------ ITEMS ALL --------------")
-results = item_repository.select_filtered("all")
+# print("------------ ITEMS ALL --------------")
+# results = item_repository.select_filtered("all")
+# print(len(results))
+
+# print("------------ ITEMS IN-STOCK --------------")
+# results = item_repository.select_filtered("in_stock")
+# print(len(results))
+
+# print("------------ ITEMS ORDERED --------------")
+# results = item_repository.select_filtered("ordered")
+# print(len(results))
+
+
+# print()
+# print()
+# print("------------ ALBUMS ALL --------------")
+# results = album_repository.select_filtered("all")
+# print(len(results))
+
+# print("------------ ALBUMS IN-STOCK --------------")
+# results = album_repository.select_filtered("in_stock")
+# print(len(results))
+
+# print("------------ ALBUMS ORDERED --------------")
+# results = album_repository.select_filtered("ordered")
+# print(len(results))
+
+
+# print()
+# print()
+# print("------------ ARTISTS ALL --------------")
+# results = artist_repository.select_filtered("all")
+# print(len(results))
+
+# print("------------ ARTISTS IN-STOCK --------------")
+# results = artist_repository.select_filtered("in_stock")
+# print(len(results))
+
+# print("------------ ARTISTS ORDERED --------------")
+# results = artist_repository.select_filtered("ordered")
+# print(len(results))
+
+
+print("------------ ARTISTS ORDERED with B--------------")
+results = artist_repository.select_by_filter_and_selection("ordered", "B")
 print(len(results))
 
-print("------------ ITEMS IN-STOCK --------------")
-results = item_repository.select_filtered("in_stock")
+print("------------ ALBUMS ORDERED by artists with B--------------")
+results = album_repository.select_by_filter_and_selection("ordered", "B")
 print(len(results))
 
-print("------------ ITEMS ORDERED --------------")
-results = item_repository.select_filtered("ordered")
-print(len(results))
-
-
-print()
-print()
-print("------------ ALBUMS ALL --------------")
-results = album_repository.select_filtered("all")
-print(len(results))
-
-print("------------ ALBUMS IN-STOCK --------------")
-results = album_repository.select_filtered("in_stock")
-print(len(results))
-
-print("------------ ALBUMS ORDERED --------------")
-results = album_repository.select_filtered("ordered")
-print(len(results))
-
-
-print()
-print()
-print("------------ ARTISTS ALL --------------")
-results = artist_repository.select_filtered("all")
-print(len(results))
-
-print("------------ ARTISTS IN-STOCK --------------")
-results = artist_repository.select_filtered("in_stock")
-print(len(results))
-
-print("------------ ARTISTS ORDERED --------------")
-results = artist_repository.select_filtered("ordered")
+print("------------ Items ORDERED by artists with B--------------")
+results = item_repository.select_by_filter_and_selection("ordered", "B")
 print(len(results))

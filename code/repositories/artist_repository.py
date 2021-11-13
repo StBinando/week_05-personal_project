@@ -1,3 +1,4 @@
+from werkzeug.datastructures import IfRange
 from db.run_sql import run_sql
 from models.artist import Artist
 
@@ -64,4 +65,18 @@ def select_filtered(filter = "all"):
             artist = select_1_artist_by_id(id)
             artists.append(artist)
         artists = set(artists)
+    return artists
+
+def select_by_filter_and_selection(filter = "all", selection = "all_albums"):
+    filtered = select_filtered(filter)
+    selected = select_by_selection(selection)
+    artists_id =[]
+    for s in selected:
+        for f in filtered:
+            if s.id == f.id:
+                artists_id.append(s.id)
+    artists_id = set(artists_id)
+    artists =[]
+    for id in artists_id:
+        artists.append(select_1_artist_by_id(id))
     return artists

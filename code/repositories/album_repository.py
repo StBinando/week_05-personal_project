@@ -69,6 +69,19 @@ def select_filtered(filter = "all"):
             album = select_1_album_by_id(id)
             albums.append(album)
         albums = set(albums)
+    return albums
 
+def select_by_filter_and_selection(filter = "all", selection = "all_albums"):
+    filtered = select_filtered(filter)
+    selected = select_by_selection(selection)
+    albums_id =[]
+    for s in selected:
+        for f in filtered:
+            if s.id == f.id:
+                albums_id.append(s.id)
+    albums_id = set(albums_id)
+    albums =[]
+    for id in albums_id:
+        albums.append(select_1_album_by_id(id))
     return albums
         
