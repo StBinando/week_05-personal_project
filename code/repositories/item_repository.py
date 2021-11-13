@@ -58,6 +58,15 @@ def select_by_selection(selection = "all_albums"):
     return items
 
 def select_filtered(filter = "all"):
-    pass
+    if filter == "all":
+        sql = "SELECT * FROM items"
+    else:
+        sql = f"SELECT * FROM items where {filter} >0"
+    results = run_sql(sql)
+    items = []
+    for row in results:
+        album = album_repository.select_1_album_by_id(row['album_id'])
+        item = Item(album, row['support'], row['cost'], row['selling_price'], row['in_stock'], row['ordered'], row['id'])
+        items.append(item)
+    return items
 
-    
