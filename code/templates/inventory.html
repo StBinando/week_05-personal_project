@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+INVENTORY
+    <header>
+        <p>search/filter</p>
+    </header>
+    <main>
+        <p>results</p>
+        {% for item in all_albums %}
+            <p>
+                {{("" if item.album.artist.first_name == None else item.album.artist.first_name+" ")+item.album.artist.last_name}}
+                {{item.album.title}}
+                {{item.support}}
+                {{item.in_stock}}
+                {{item.ordered}}
+                £{{item.cost}}
+                £{{item.selling_price}}
+                £{{item.selling_price - item.cost}}
+            </p>
+        {% endfor %}
+    </main>
+{% endblock %}
