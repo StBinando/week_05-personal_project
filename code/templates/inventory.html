@@ -13,7 +13,7 @@
         
         <!-- <p>----------- initials and buttons -----------</p> -->
         <p>list all artists:</p>
-        <button><a href="/inventory/all_albums/{{filter}}">ALL</a></button>
+        <button><a href="/inventory/all_albums/{{filter}}">ALL / RESET</a></button>
         <p>or browse by initial:</p>
         {% for initial in initials %}
             <button><a href="/inventory/{{initial}}/{{filter}}">{{initial}}</a></button>
@@ -23,17 +23,16 @@
         <!-- <p>-------------- searches --------------</p> -->
         <p>...or search a specific artist/album:</p>
         <form action="/inventory/{{initial}}/{{filter}}"></form>
-        <input type="text" name="search" id="search" list="datalist1">
-        <datalist id = "datalist1">
-
-            {% for artist in all_artists %}
-                <option value='{{("" if artist.first_name == None else artist.first_name+" ")+artist.last_name}}'></option>
-            {% endfor %}
-            {% for item in all_items %}
-                <option value='{{item.album.title}}'></option>
-            {% endfor %}
-
-        </datalist>
+            <input type="text" name="search" id="search" list="datalist1">
+            <datalist id = "datalist1">
+                {% for artist in all_artists %}
+                    <option value='{{("" if artist.first_name == None else artist.first_name+" ")+artist.last_name}}'></option>
+                {% endfor %}
+                {% for album in albums %}
+                    <option value='{{album}}'></option>
+                {% endfor %}
+            </datalist>
+        
         
     </header>
 

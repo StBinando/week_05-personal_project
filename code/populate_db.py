@@ -9,6 +9,7 @@ from random import Random, randint, uniform
 import repositories.artist_repository as artist_repository
 import repositories.album_repository as album_repository
 import repositories.item_repository as item_repository
+import repositories.customer_repository as customer_repository
 
 import os
 os.system('psql -d rubberduck_records -f db/rubberduck_records.sql')
@@ -123,7 +124,23 @@ for i in range(1,50):
 
 # --------------------------- CREATES CUSTOMERS ------------------------------
 customer_1 = Customer("John Smith", "+447857634091")
+customer_2 = Customer("Lewis Carroll", "lewis.Carroll@gmail.com")
+customer_3 = Customer("Nick Hornby", "+441317543329")
+
+for i in range(1,4):
+    exec(f'customer_repository.add_customer(customer_{i})')
 
 # --------------------------- CREATES CUSTOMERS-ITEMS ------------------------------
-customer_item_1 = CustomerItem(customer_1, item_1)
+customer_item_1 = CustomerItem(customer_1, item_7)
+customer_item_2 = CustomerItem(customer_2, item_1)
+customer_item_3 = CustomerItem(customer_2, item_33)
+customer_item_4 = CustomerItem(customer_2, item_11)
+customer_item_5 = CustomerItem(customer_3, item_7)
+customer_item_6 = CustomerItem(customer_3, item_28)
+customer_item_7 = CustomerItem(customer_2, item_7)
+customer_item_8 = CustomerItem(customer_3, item_15)
+customer_item_9 = CustomerItem(customer_3, item_5)
+customer_item_10 = CustomerItem(customer_3, item_9)
 
+# for i in range(1,11):
+#     exec(f'customer_item_repository.add_customer_item(item_{i})')

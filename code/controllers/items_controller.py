@@ -44,5 +44,10 @@ def inventory(selection = "all_albums", filter = "all"):
                 selected_artists.append(artist)
 
     all_items_sorted = sorted(all_items_unsorted, key=lambda item: (item.album.artist.last_name, item.album.title, item.support))
+    albums = []
+    for item in all_items_sorted:
+        album_title = item.album.title
+        albums.append(album_title)
+    albums = set(albums)
 
-    return render_template("inventory.html", all_items = all_items_sorted, all_artists = selected_artists, initials = initials, selection = selection, filter = filter)
+    return render_template("inventory.html", all_items = all_items_sorted, albums = albums, all_artists = selected_artists, initials = initials, selection = selection, filter = filter)
