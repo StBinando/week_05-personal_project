@@ -41,6 +41,7 @@ def delete_1_item_by_id(id):
 def select_by_selection(selection = "all_albums"):
     if selection == "all_albums":
         sql = "SELECT * FROM items"
+        values = None
     else:
         albums_id = []
         albums = album_repository.select_by_selection(selection)
