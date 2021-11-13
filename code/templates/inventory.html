@@ -1,22 +1,37 @@
 {% extends 'base.html' %}
 {% block content %}
-INVENTORY
     <header>
-        <p>search/filter</p>
+        <p>----------- SEARCH / FILTERS -----------</p>
     </header>
+    <hr>
     <main>
-        <p>results</p>
-        {% for item in all_albums %}
-            <p>
-                {{("" if item.album.artist.first_name == None else item.album.artist.first_name+" ")+item.album.artist.last_name}}
-                {{item.album.title}}
-                {{item.support}}
-                {{item.in_stock}}
-                {{item.ordered}}
-                £{{item.cost}}
-                £{{item.selling_price}}
-                £{{item.selling_price - item.cost}}
-            </p>
+        <p>----------- RESULTS -----------</p>
+        <p>----------- initials and buttons -----------</p>
+        {% for initial in initials %}
+            <button>{{initial}}</button>
         {% endfor %}
+        <button>all artists</button>
+        <hr>
+        <p>----------- list of albums -----------</p>
+        <section>
+            <button>all albums</button>
+            {% for artist in all_artists %}
+            <p>
+                {{artist.last_name}}
+            </p>
+            {% endfor %}
+            {% for item in all_items %}
+                <p>
+                    {{("" if item.album.artist.first_name == None else item.album.artist.first_name+" ")+item.album.artist.last_name}}
+                    {{item.album.title}}
+                    {{item.support}}
+                    <!-- {{item.in_stock}}
+                    {{item.ordered}}
+                    £{{item.cost}}
+                    £{{item.selling_price}}
+                    £{{ (item.selling_price - item.cost) | round(2) }} -->
+                </p>
+            {% endfor %}
+        </section>
     </main>
 {% endblock %}
