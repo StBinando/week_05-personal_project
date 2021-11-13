@@ -16,8 +16,8 @@ os.system('psql -d rubberduck_records -f db/rubberduck_records.sql')
 
 
 # --------------------------- CREATES OBJECTS FOR TESTS ------------------------------
-artist_1 = Artist("David Bowie")
-artist_2 = Artist("Iggy Pop")
+artist_1 = Artist("Bowie", "David")
+artist_2 = Artist("Pop", "Iggy")
 
 album_1 = Album(artist_1, "Low")
 album_2 = Album(artist_1, "Pin-Up")
@@ -103,3 +103,4 @@ item_repository.delete_1_item_by_id(2)
 results = item_repository.show_all()
 for row in results:
     print(row.__dict__)
+    
