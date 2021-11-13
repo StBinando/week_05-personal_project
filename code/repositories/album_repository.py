@@ -35,4 +35,23 @@ def delete_1_album_by_id(id):
     sql = "DELETE FROM albums WHERE id = %s"
     values = [id]
     run_sql(sql, values)
-    
+
+def select_by_selection(selection = "all_albums"):
+    if selection == "all_albums":
+        sql = "SELECT * FROM albums"
+    else:
+        artists_id = []
+        artists = artist_repository.select_by_selection(selection)
+        for artist in artists:
+            artists_id.append(artist.id)
+        sql = "SELECT * FROM albums where artist_id IN %s"
+        values = [tuple(artists_id)]
+        print(artists_id)
+    albums = []
+    results = run_sql(sql, values)
+    for row in results:
+        artist = artist_repository.select_1_artist_by_id(row['artist_id'])
+        album = Album(artist, row['title'], row['id'])
+        albums.append(album)
+    return albums
+        

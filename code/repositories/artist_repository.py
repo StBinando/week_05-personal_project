@@ -30,3 +30,21 @@ def delete_1_artist_by_id(id):
     sql = "DELETE FROM artists WHERE id = %s"
     values = [id]
     run_sql(sql, values)
+
+
+def select_by_selection(selection = "all_albums"):
+    if filter == "all":
+        pass
+    else:
+        pass
+
+    if selection == "all_albums":
+        sql = "SELECT * FROM artists"
+    else:
+        sql = f"SELECT * FROM artists where last_name LIKE '{selection}%'"
+    results = run_sql(sql)
+    artists = []
+    for row in results:
+        artist = Artist(row['last_name'], row['first_name'], row['id'])
+        artists.append(artist)
+    return artists

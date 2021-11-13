@@ -38,4 +38,26 @@ def delete_1_item_by_id(id):
     values = [id]
     run_sql(sql, values)
 
+def select_by_selection(selection = "all_albums"):
+    if selection == "all_albums":
+        sql = "SELECT * FROM items"
+    else:
+        albums_id = []
+        albums = album_repository.select_by_selection(selection)
+        for album in albums:
+            albums_id.append(album.id)
+        sql = "SELECT * FROM items where album_id IN %s"
+        values = [tuple(albums_id)]
+        print(albums_id)
+    items = []
+    results = run_sql(sql, values)
+    for row in results:
+        album = album_repository.select_1_album_by_id(row['album_id'])
+        item = Item(album, row['support'], row['cost'], row['selling_price'], row['in_stock'], row['ordered'], row['id'])
+        items.append(item)
+    return items
+
+def select_filtered(filter = "all"):
+    pass
+
     

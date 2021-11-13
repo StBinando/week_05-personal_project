@@ -2,24 +2,38 @@
 {% block content %}
     <header>
         <p>----------- SEARCH / FILTERS -----------</p>
-    </header>
-    <hr>
-    <main>
-        <p>----------- RESULTS -----------</p>
+        <p>-------------- searches --------------</p>
+        
+        <hr>
+
+        <p>-------------- filters --------------</p>
+        <button>all</button>
+        <button>in stock</button>
+        <button>ordered</button>
+        <button>pre-booked</button>
+
+
+        
         <p>----------- initials and buttons -----------</p>
         <button><a href="/inventory/all_albums">ALL</a></button>
         {% for initial in initials %}
             <button><a href="/inventory/{{initial}}">{{initial}}</a></button>
         {% endfor %}
         <hr>
+    </header>
 
 
+    <hr>
 
+
+    <main>
+        <p>----------- RESULTS -----------</p>
         <p>----------- list of albums -----------</p>
         <section>
             {% for initial in initials %}
-                <img src="/static/img/letters/{{initial}}.jpeg" alt={{initial}} width="50px" height="50px">
-                
+                {% if initial == selection or selection == "all_albums" %}
+                    <img src="/static/img/letters/{{initial}}.jpeg" alt={{initial}} width="50px" height="50px">
+                {% endif %}
                 {% for artist in all_artists if artist.last_name[0] == initial %}
                     <p>
                         {{("" if artist.first_name == None else artist.first_name+" ")+artist.last_name}}
@@ -37,10 +51,7 @@
                     {% endfor %}
                     <p>------------------------------------</p>
                 {% endfor %}
-
             {% endfor %}
-            
-            
         </section>
     </main>
 {% endblock %}
