@@ -7,35 +7,39 @@
     <main>
         <p>----------- RESULTS -----------</p>
         <p>----------- initials and buttons -----------</p>
+        <button><a href="/inventory/all_albums">ALL</a></button>
         {% for initial in initials %}
             <button><a href="/inventory/{{initial}}">{{initial}}</a></button>
         {% endfor %}
-        <button>all artists</button>
         <hr>
 
 
 
         <p>----------- list of albums -----------</p>
         <section>
-            <button>all albums</button>
-            {% for artist in all_artists %}
-                <p>
-                    <!-- {{artist.last_name}} -->
-                    {{("" if artist.first_name == None else artist.first_name+" ")+artist.last_name}}
-                </p>
-                {% for item in all_items if item.album.artist.last_name == artist.last_name %}
-                <p>
-                    {{item.album.title}}
-                    {{item.support}}
-                    {{item.in_stock}}
-                    {{item.ordered}}
-                    £{{item.cost}}
-                    £{{item.selling_price}}
-                    £{{ (item.selling_price - item.cost) | round(2) }}
-                </p>
+            {% for initial in initials %}
+                <img src="/static/img/letters/{{initial}}.jpeg" alt={{initial}} width="50px" height="50px">
+                
+                {% for artist in all_artists if artist.last_name[0] == initial %}
+                    <p>
+                        {{("" if artist.first_name == None else artist.first_name+" ")+artist.last_name}}
+                    </p>
+                    {% for item in all_items if item.album.artist.last_name == artist.last_name %}
+                    <p>
+                        {{item.album.title}}
+                        {{item.support}}
+                        {{item.in_stock}}
+                        {{item.ordered}}
+                        £{{item.cost}}
+                        £{{item.selling_price}}
+                        £{{ (item.selling_price - item.cost) | round(2) }}
+                    </p>
+                    {% endfor %}
+                    <p>------------------------------------</p>
                 {% endfor %}
-                <p>------------------------------------</p>
+
             {% endfor %}
+            
             
         </section>
     </main>

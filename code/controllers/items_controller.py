@@ -30,4 +30,4 @@ def inventory(selection = "all_albums"):
                 selected_artists.append(artist)
     all_items_unsorted = item_repository.show_all()
     all_items_sorted = sorted(all_items_unsorted, key=lambda item: (item.album.artist.last_name, item.album.title, item.support))
-    return render_template("inventory.html", all_items = all_items_sorted, all_artists = selected_artists, initials = initials)
+    return render_template("inventory.html", all_items = all_items_sorted, all_artists = selected_artists, initials = initials, selection = selection)
