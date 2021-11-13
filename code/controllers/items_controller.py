@@ -1,14 +1,17 @@
 from flask import Flask, redirect, render_template, request
 from app import app
+from collections import Counter
 
 # CLASSES
 from models.item import Item
 from models.album import Album
 from models.artist import Artist
+from models.customer_item import CustomerItem
 
 #  REPOSITORIES
 import repositories.item_repository as item_repository
 import repositories.artist_repository as artist_repository
+import repositories.customer_item_repository as customer_item_repository
 
 
 
@@ -45,9 +48,16 @@ def inventory(selection = "all_albums", filter = "all"):
 
     all_items_sorted = sorted(all_items_unsorted, key=lambda item: (item.album.artist.last_name, item.album.title, item.support))
     albums = []
+    customers_items_id=[]
+    all_customers_items = customer_item_repository.show_all()
     for item in all_items_sorted:
         album_title = item.album.title
         albums.append(album_title)
+        for ci in all_customers_items:
+            if ci.item.id == item.id:
+                customers_items_id.append(ci.item.id)
     albums = set(albums)
+    customers_items_id = Counter(customers_items_id)
+    
 
-    return render_template("inventory.html", all_items = all_items_sorted, albums = albums, all_artists = selected_artists, initials = initials, selection = selection, filter = filter)
+    return render_template("inventory.html", all_items = all_items_sorted, albums = albums, all_artists = selected_artists, customers_items = customers_items_id, initials = initials, selection = selection, filter = filter)

@@ -39,7 +39,6 @@
 
     <hr>
 
-
     <main>
         <p>----------- RESULTS -----------</p>
         <p>Displaying {{filter}} albums for artists beginning with: {{selection}}</p>
@@ -54,13 +53,15 @@
                     </p>
                     {% for item in all_items if item.album.artist.last_name == artist.last_name %}
                     <p>
+                        {{item.id}}
                         {{item.album.title}}
                         {{item.support}}
-                        {{item.in_stock}}
-                        {{item.ordered}}
-                        <!-- £{{item.cost}}
-                        £{{item.selling_price}}
-                        £{{ (item.selling_price - item.cost) | round(2) }} -->
+                        in stock: {{item.in_stock}}
+                        ordered: {{item.ordered}}
+                        pre-booked: {{customers_items[item.id]}}
+                        cost: £{{item.cost}}
+                        selling price: £{{item.selling_price}}
+                        markup: £{{(item.selling_price - item.cost)|round(2)}}
                     </p>
                     {% endfor %}
                     <p>------------------------------------</p>
