@@ -29,12 +29,55 @@ def show_search(result):
         title = result[4:]
         album = album_repository.select_by_title(title)[0]
         items = item_repository.select_items_by_album_id(album.id)
-
+        artist_found = artist_repository.select_1_artist_by_id(album.artist.id)
     else:
-        artist = artist_repository.select_artist_by_full_name(result)
-        items = item_repository.select_items_by_artist_id(artist.id)
-    return render_template("empty.html", items = items)
+        artist_found = artist_repository.select_artist_by_full_name(result)
+        items = item_repository.select_items_by_artist_id(artist_found.id)
+    items = sorted(items, key=lambda item: (item.album.title, item.support))
 
+
+    # creates ordered list of unique values for ALL artists FULL NAME
+    all_artists_unfiltered = artist_repository.show_all()
+    artist_names= []
+    for artist in all_artists_unfiltered:
+        artist_full_name = f'{"" if artist.first_name == None else f"{artist.first_name} "}{artist.last_name}'
+        artist_names.append(artist_full_name)
+    artist_names = sorted(set(artist_names), key = lambda artist_names: artist_names)
+
+    # creates ordered list of unique values for ALL album titles
+    all_items_unfiltered =item_repository.show_all()
+    albums = []
+    for item in all_items_unfiltered:
+        album_title = item.album.title
+        albums.append(album_title)
+    album_titles = sorted(set(albums), key = lambda albums: albums)
+
+    initials = []
+    for artist in all_artists_unfiltered:
+        initials.append(artist.last_name[0])
+        initials = sorted(set(initials))
+
+
+    pre_booked_items = []
+    all_pre_booked_items = customer_item_repository.show_all()        
+    for item in items:
+        for pbi in all_pre_booked_items:
+            if pbi.item.id == item.id:
+                pre_booked_items.append(pbi.item.id)
+    pre_booked_items = Counter(pre_booked_items)
+
+    return render_template(
+        "inventory.html",
+        filter ="all",
+        selection = artist_found.last_name[0],
+        error = None,
+        artist_names = artist_names,
+        album_titles = album_titles,
+        initials = initials,
+        artists_filtered = [artist_found],
+        items = items,
+        pre_booked_items = pre_booked_items
+        )
 
 
 
@@ -55,7 +98,7 @@ def inventory_selected(filter = "all", selection = "all"):
         artist_names.append(artist_full_name)
     artist_names = sorted(set(artist_names), key = lambda artist_names: artist_names)
 
-    # creates ordered list of unique values for ALL aalbum titles
+    # creates ordered list of unique values for ALL album titles
     all_items_unfiltered =item_repository.show_all()
     albums = []
     for item in all_items_unfiltered:
@@ -110,7 +153,6 @@ def inventory_selected(filter = "all", selection = "all"):
         pre_booked_items = Counter(pre_booked_items)
         # sorts the list of item OBJECTS by album title, then support
         items_sorted = sorted(all_items_filtered, key=lambda item: (item.album.title, item.support))
-        
         
         
         # creates a list of unique artists OBJECTS applying the same filter
