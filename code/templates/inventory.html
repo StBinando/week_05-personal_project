@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
     <header>
-        <!-- <p>----------- SEARCH / FILTERS -----------</p>
-        <p>-------------- filters --------------</p> -->
+        <!-- ----------- SEARCH / FILTERS ----------- -->
+        <!-- -------------- filters -------------- -->
         <p>filter by availability:</p>
         <button><a href="/inventory/{{selection}}/all">all</a></button>
         <button><a href="/inventory/{{selection}}/in_stock">in stock</a></button>
@@ -11,7 +11,7 @@
         
         <hr>
         
-        <!-- <p>----------- initials and buttons -----------</p> -->
+        <!-- ----------- initials and buttons ----------- -->
         <p>list all artists:</p>
         <button><a href="/inventory/all_albums/{{filter}}">ALL / RESET</a></button>
         <p>or browse by initial:</p>
@@ -20,20 +20,18 @@
         {% endfor %}
         <hr>
 
-        <!-- <p>-------------- searches --------------</p> -->
-        <p>...or search a specific artist/album:</p>
+        <!-- -------------- searches -------------- -->
+        <p>or search a specific artist/album:<br>(t) means album title</p>
         <form action="/inventory/{{initial}}/{{filter}}"></form>
             <input type="text" name="search" id="search" list="datalist1">
             <datalist id = "datalist1">
-                {% for artist in all_artists %}
-                    <option value='{{("" if artist.first_name == None else artist.first_name+" ")+artist.last_name}}'></option>
+                {% for artist in artist_names %}
+                    <option value='{{artist}}'></option>
                 {% endfor %}
                 {% for album in albums %}
-                    <option value='{{album}}'></option>
+                    <option value='(t) {{album}}'></option>
                 {% endfor %}
             </datalist>
-        
-        
     </header>
 
 
