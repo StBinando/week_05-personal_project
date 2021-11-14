@@ -1,4 +1,5 @@
 from flask import Flask, redirect, render_template, request
+from jinja2.environment import TemplateStream
 from app import app
 from collections import Counter
 
@@ -14,11 +15,31 @@ import repositories.artist_repository as artist_repository
 import repositories.customer_item_repository as customer_item_repository
 
 
-#                           INVENTORY FILTER
+@app.route('/inventory/search', methods=['POST'])
+def get_search():
+    result = request.form['search']
+    return redirect(f"/inventory/search_result{result}")
+
+
+@app.route('/inventory/search_result<result>', methods=['GET'])
+def show_search(result):
+    # txt = "1234567890"
+    # test = txt[0:]
+    if result[0:3] == "(t)":
+        pass
+    else:
+        artist = artist_repository.select_artist_by_full_name(result)
+        items = item_repository.select_items_by_artist(artist.id)
+    return render_template("empty.html", items = items)
+
+
+
+
+#                           INVENTORY FILTER/INITIAL
 # returns a list of items to display
 # based on "filter" (availability/genre/label) ONLY, doesn't use "selection" (initials)
-@app.route('/inventory/<filter>')
-def inventory(filter = "all"):
+@app.route('/inventory/<filter>/<selection>', methods=['GET'])
+def inventory_selected(filter = "all", selection = "all"):
 
     # sets initial error message to None
     error = None
@@ -39,25 +60,46 @@ def inventory(filter = "all"):
         albums.append(album_title)
     album_titles = sorted(set(albums), key = lambda albums: albums)
 
+
+
+
     # if filter is "ALL" returns a list of ALL Item objects, unfiltered
     if filter == "all":
-        results = item_repository.show_all()
+        if selection == "all":
+            results = item_repository.show_all()
+        else:
+            results = item_repository.select_by_selection(selection)
         if len(results) == 0:
             error = "The inventory is empty!"
+    
+    
+    
     # if filter is ANYTHING ELSE returns a list of ALL Item objects
     # based on criteria set on item_repository     
     else:
-        results = item_repository.select_filtered(filter)
+        results_filtered = item_repository.select_filtered(filter)
+        if selection == "all":
+            results = results_filtered
+        else:
+            results = []
+            for rf in results_filtered:
+                if rf.album.artist.last_name[0] == selection:
+                    results.append(rf)
+            pass
         if len(results) == 0:
             error = f"There are no {filter} items to display"
     
     # if the list is not empty
+    initials = []
+    artists_filtered = []
+    items_sorted = []
+    pre_booked_items = []
     if error == None:
         all_items_filtered = results
         # checks the number of pre-booked items in customers_items table
         # that match items in the filtered list 
         all_pre_booked_items = customer_item_repository.show_all()
-        pre_booked_items=[]
+        
         for item in all_items_filtered:
             for pbi in all_pre_booked_items:
                 if pbi.item.id == item.id:
@@ -65,12 +107,17 @@ def inventory(filter = "all"):
         pre_booked_items = Counter(pre_booked_items)
         # sorts the list of item OBJECTS by album title, then support
         items_sorted = sorted(all_items_filtered, key=lambda item: (item.album.title, item.support))
+        
+        
+        
         # creates a list of unique artists OBJECTS applying the same filter
         artists_filtered = artist_repository.select_filtered(filter)
+
         # creates a list of unique initials based on filtered artists
-        initials = []
         for artist in artists_filtered:
             initials.append(artist.last_name[0])
+
+        
         # sorts both initials and artists lists
         initials = sorted(set(initials))
         artists_filtered = sorted(artists_filtered, key=lambda artist: (artist.last_name, artist.first_name))
@@ -78,7 +125,8 @@ def inventory(filter = "all"):
     return render_template(
         "inventory.html",
         filter = filter, # value for availability selected (str)
-        selection = "all", # value for initial selected (str)
+        selection = selection, # value for initial selected (str)
+        error = error, # error message returned if the list is empty
         artist_names = artist_names, # ordered list of artist names (str) for serach box - unfiltered
         album_titles = album_titles, # ordered list of album titles (str) for serach box - unfiltered
         initials = initials, # ordered list of artists.last_name first letter (char) - filtered by availability only
@@ -86,66 +134,4 @@ def inventory(filter = "all"):
         items = items_sorted, # ordered list of all items (obj) - filtered
         pre_booked_items = pre_booked_items # unordered list of the number of customers_items for filtered items
     )
-
-
-# ================================================================================================
-# ================================================================================================
-# ================================================================================================
-# ================================================================================================
-# ================================================================================================
-# ================================================================================================
-# ================================================================================================
-
-#                           INVENTORY FILTER/INITIALS
-#           COMMENT
-#       returns a list of items to display
-#       based on "filter" (availability/genre/label) ONLY, doesn't use "selection" (initials)
-
-#           PSEUDOCODE
-# #     1 -   creates list of all artists FULL NAME (unique values - sorted)
-#           for search box that overrides filter
-
-#     2 -   creates list of all album titles (unique values - sorted)
-#           for search box that overrides filter
-
-#     3 -   if filter is pre-booked -> 
-#           -   if list is empy ->
-#                   - creates error message
-#           -   else ->
-#                   - go through customers_items table first
-#                   - create a list of unique item_id in that table
-#                     with number of pre-book for each id
-#           -   uses the list created to create and return
-#               restricted list of items with the same item_id in the list
-#       -   else if filter is all -> 
-#           -   if list is empy ->
-#                   - creates error message
-#           -   else ->
-#                   - returns all items
-#       -   else ->
-#           -   if list is empy ->
-#                   - creates error message
-#           -   else ->
-#               -   returns restricted list of items based on filter matching
-#                   column name in table items with values > 0
-
-#     4 -   if error message is empty ->
-#           -   order resulting list
-#           -   creates list of INITIALS of artists LAST NAME (unique values - sorted)
-#               based on restricted item list
-
-#     5 -   returns:
-#           -   variable selection as selected
-#           -   list of ALL artists FULL NAME
-#           -   list of ALL albums TITLES
-#           -   variable filter = "all"
-#           -   list of filtered INITIALS
-#           -   list of pre-booked ids and numbers
-#           -   list of filtered items
-#           -   error message
-
-
-
-
-
 

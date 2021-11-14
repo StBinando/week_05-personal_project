@@ -39,8 +39,8 @@ def delete_1_item_by_id(id):
     values = [id]
     run_sql(sql, values)
 
-def select_by_selection(selection = "all_albums"):
-    if selection == "all_albums":
+def select_by_selection(selection = "all"):
+    if selection == "all":
         sql = "SELECT * FROM items"
         values = None
     else:
@@ -99,3 +99,10 @@ def select_by_filter_and_selection(filter = "all", selection = "all_albums"):
         items.append(select_1_item_by_id(id))
     return items
 
+def select_items_by_artist(artist_id):
+    artist_items = []
+    all_items = show_all()
+    for i in all_items:
+        if i.album.artist.id == artist_id:
+            artist_items.append(i)
+    return artist_items

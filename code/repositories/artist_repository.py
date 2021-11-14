@@ -36,12 +36,7 @@ def delete_1_artist_by_id(id):
 
 
 def select_by_selection(selection = "all_albums"):
-    if filter == "all":
-        pass
-    else:
-        pass
-
-    if selection == "all_albums":
+    if selection == "all":
         sql = "SELECT * FROM artists"
     else:
         sql = f"SELECT * FROM artists where last_name LIKE '{selection}%'"
@@ -52,7 +47,6 @@ def select_by_selection(selection = "all_albums"):
         artists.append(artist)
     return artists
 
-# reviewed --- ok
 def select_filtered(filter = "all"):
     artists = []
     if filter == "all":
@@ -81,3 +75,11 @@ def select_by_filter_and_selection(filter = "all", selection = "all_albums"):
     for id in artists_id:
         artists.append(select_1_artist_by_id(id))
     return artists
+
+def select_artist_by_full_name(name):
+    results = show_all()
+    for r in results:
+        r_name = (f'{"" if r.first_name == None else f"{r.first_name} "}{r.last_name}')
+        if r_name == name:
+            artist = r
+    return artist

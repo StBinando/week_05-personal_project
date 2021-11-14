@@ -2,27 +2,9 @@
 {% block content %}
     <header>
         <!-- ----------- SEARCH / FILTERS ----------- -->
-        <!-- -------------- filters -------------- -->
-        <p>filter by availability:</p>
-        <button><a href="/inventory/all">all</a></button>
-        <button><a href="/inventory/in_stock">in stock</a></button>
-        <button><a href="/inventory/ordered">ordered</a></button>
-        <button><a href="/inventory/pre_booked">pre-booked</a></button>
-        
-        <hr>
-        
-        <!-- ----------- initials and buttons ----------- -->
-        <p>list all artists:</p>
-        <button><a href="/inventory/{{filter}}/any">ALL</a></button>
-        <p>or browse by initial:</p>
-        {% for initial in initials %}
-            <button><a href="/inventory/{{filter}}/{{initial}}">{{initial}}</a></button>
-        {% endfor %}
-        <hr>
-
         <!-- -------------- searches -------------- -->
         <p>or search a specific artist/album:<br>(t) means album title</p>
-        <form action="/inventory/{{filter}}"></form>
+        <form class="form" action="/inventory/search" method="post">
             <input type="text" name="search" id="search" list="datalist1">
             <datalist id = "datalist1">
                 {% for artist in artist_names %}
@@ -32,6 +14,30 @@
                     <option value='(t) {{album}}'></option>
                 {% endfor %}
             </datalist>
+            <input class=play type="submit" value=&#128269>
+
+        </form>
+        
+        <hr>
+
+        <!-- -------------- filters -------------- -->
+        <p>filter by availability:</p>
+        <button><a href="/inventory/all/{{selection}}">all</a></button>
+        <button><a href="/inventory/in_stock/{{selection}}">in stock</a></button>
+        <button><a href="/inventory/ordered/{{selection}}">ordered</a></button>
+        <button><a href="/inventory/pre_booked/{{selection}}">pre-booked</a></button>
+        
+        <hr>
+        
+        <!-- ----------- initials and buttons ----------- -->
+        <p>list all artists:</p>
+        <button><a href="/inventory/{{filter}}/all">ALL</a></button>
+        <p>or browse by initial:</p>
+        {% for initial in initials %}
+            <button><a href="/inventory/{{filter}}/{{initial}}">{{initial}}</a></button>
+        {% endfor %}
+        <hr>
+
     </header>
 
 
@@ -39,32 +45,38 @@
 
     <main>
         <p>----------- RESULTS -----------</p>
-        <p>{{item_ids}}</p>
+        <p>{{error}}</p>
         <p>Displaying {{filter}} albums for artists beginning with: {{selection}}</p>
         <section>
             {% for initial in initials %}
+
                 {% if initial == selection or selection == "all" %}
                     <img src="/static/img/letters/{{initial}}.jpeg" alt={{initial}} width="50px" height="50px">
-                {% endif %}
-                {% for artist in artists_filtered if artist.last_name[0] == initial %}
-                    <p>
-                        {{("" if artist.first_name == None else artist.first_name+" ")+artist.last_name}}
-                    </p>
-                    {% for item in items if item.album.artist.last_name == artist.last_name %}
-                    <p>
-                        {{item.id}}
-                        {{item.album.title}}
-                        {{item.support}}
-                        in stock: {{item.in_stock}}
-                        ordered: {{item.ordered}}
-                        pre-booked: {{pre_booked_items[item.id]}}
-                        cost: £{{item.cost}}
-                        selling price: £{{item.selling_price}}
-                        markup: £{{(item.selling_price - item.cost)|round(2)}}
-                    </p>
+                    
+                    {% for artist in artists_filtered if (artist.last_name[0] == initial) %}
+                        <p>
+                            {{("" if artist.first_name == None else artist.first_name+" ")+artist.last_name}}
+                        </p>
+
+                        {% for item in items if item.album.artist.last_name == artist.last_name %}
+                        <p>
+                            {{item.id}}
+                            {{item.album.title}}
+                            {{item.support}}
+                            in stock: {{item.in_stock}}
+                            ordered: {{item.ordered}}
+                            pre-booked: {{pre_booked_items[item.id]}}
+                            <!-- cost: £{{item.cost}}
+                                selling price: £{{item.selling_price}}
+                                markup: £{{(item.selling_price - item.cost)|round(2)}} -->
+                            </p>
+                        {% endfor %}
+                        <p>------------------------------------</p>
+
                     {% endfor %}
-                    <p>------------------------------------</p>
-                {% endfor %}
+                        
+                {% endif %}
+
             {% endfor %}
         </section>
     </main>

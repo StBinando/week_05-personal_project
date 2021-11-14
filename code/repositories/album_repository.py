@@ -55,23 +55,6 @@ def select_by_selection(selection = "all_albums"):
         albums.append(album)
     return albums
         
-# ============== POTENTIALLY UNNECESSARY ===============
-# def select_filtered(filter = "all"):
-#     albums = []
-#     if filter == "all":
-#         albums = show_all()
-#     else:
-#         items = item_repository.select_filtered(filter)
-#         albums_id = []
-#         for item in items:
-#             albums_id.append(item.album.id)
-#         albums_id = set(albums_id)
-#         for id in albums_id:
-#             album = select_1_album_by_id(id)
-#             albums.append(album)
-#         albums = set(albums)
-#     return albums
-
 def select_by_filter_and_selection(filter = "all", selection = "all_albums"):
     filtered = select_filtered(filter)
     selected = select_by_selection(selection)
@@ -86,3 +69,7 @@ def select_by_filter_and_selection(filter = "all", selection = "all_albums"):
         albums.append(select_1_album_by_id(id))
     return albums
         
+def select_by_title(title):
+    results = show_all()
+    # title = t
+    pass

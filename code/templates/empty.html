@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+------ EMPTY.HTML --------
+<br>
+
+{% for item in items %}
+    <p>
+        {{item.id}}
+        {{item.album.title}}
+        {{item.support}}
+        in stock: {{item.in_stock}}
+        ordered: {{item.ordered}}
+    </p>
+    
+{% endfor %}
+{% endblock %}
