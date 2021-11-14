@@ -12,6 +12,7 @@ from models.customer_item import CustomerItem
 #  REPOSITORIES
 import repositories.item_repository as item_repository
 import repositories.artist_repository as artist_repository
+import repositories.album_repository as album_repository
 import repositories.customer_item_repository as customer_item_repository
 
 
@@ -23,13 +24,15 @@ def get_search():
 
 @app.route('/inventory/search_result<result>', methods=['GET'])
 def show_search(result):
-    # txt = "1234567890"
-    # test = txt[0:]
+
     if result[0:3] == "(t)":
-        pass
+        title = result[4:]
+        album = album_repository.select_by_title(title)[0]
+        items = item_repository.select_items_by_album_id(album.id)
+
     else:
         artist = artist_repository.select_artist_by_full_name(result)
-        items = item_repository.select_items_by_artist(artist.id)
+        items = item_repository.select_items_by_artist_id(artist.id)
     return render_template("empty.html", items = items)
 
 

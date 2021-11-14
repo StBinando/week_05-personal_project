@@ -71,5 +71,8 @@ def select_by_filter_and_selection(filter = "all", selection = "all_albums"):
         
 def select_by_title(title):
     results = show_all()
-    # title = t
-    pass
+    albums =[]
+    for r in results:
+        if r.title == title:
+            albums.append(r)
+    return albums
