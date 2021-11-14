@@ -3,6 +3,7 @@ from db.run_sql import run_sql
 from models.artist import Artist
 
 import repositories.album_repository as album_repository
+import repositories.item_repository as item_repository
 
 def add_artist(artist):
     sql = "INSERT INTO artists (last_name, first_name) VALUES (%s, %s) RETURNING *"
@@ -51,20 +52,20 @@ def select_by_selection(selection = "all_albums"):
         artists.append(artist)
     return artists
 
+# reviewed --- ok
 def select_filtered(filter = "all"):
     artists = []
     if filter == "all":
         artists = show_all()
     else:
-        albums = album_repository.select_filtered(filter)
+        items = item_repository.select_filtered(filter)
         artists_id = []
-        for album in albums:
-            artists_id.append(album.artist.id)
+        for item in items:
+            artists_id.append(item.album.artist.id)
         artists_id = set(artists_id)
         for id in artists_id:
             artist = select_1_artist_by_id(id)
             artists.append(artist)
-        artists = set(artists)
     return artists
 
 def select_by_filter_and_selection(filter = "all", selection = "all_albums"):

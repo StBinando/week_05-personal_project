@@ -5,6 +5,7 @@ from models.item import Item
 
 import repositories.artist_repository as artist_repository
 import repositories.album_repository as album_repository
+import repositories.customer_item_repository as customer_item_repository
 
 
 def add_item(item):
@@ -58,16 +59,30 @@ def select_by_selection(selection = "all_albums"):
     return items
 
 def select_filtered(filter = "all"):
-    if filter == "all":
-        sql = "SELECT * FROM items"
+    if filter == "pre_booked":
+        results = customer_item_repository.show_all()
+        item_ids = []
+        for row in results:
+            item_ids.append(row.item.id)
+        item_ids = set(item_ids)
+        items = []
+        for id in item_ids:
+            item = select_1_item_by_id(id)
+            items.append(item)
     else:
-        sql = f"SELECT * FROM items where {filter} >0"
-    results = run_sql(sql)
-    items = []
-    for row in results:
-        album = album_repository.select_1_album_by_id(row['album_id'])
-        item = Item(album, row['support'], row['cost'], row['selling_price'], row['in_stock'], row['ordered'], row['id'])
-        items.append(item)
+        if filter == "all":
+            sql = "SELECT * FROM items"
+        else:
+            if filter == "in_stock" or filter == "ordered":
+                sql = f"SELECT * FROM items where {filter} >0"
+            else: # not active until GENRE is added - i should be added to albums, though...
+                sql = f"SELECT * FROM items where genre = {filter}"
+        results = run_sql(sql)
+        items = []
+        for row in results:
+            album = album_repository.select_1_album_by_id(row['album_id'])
+            item = Item(album, row['support'], row['cost'], row['selling_price'], row['in_stock'], row['ordered'], row['id'])
+            items.append(item)
     return items
 
 def select_by_filter_and_selection(filter = "all", selection = "all_albums"):
