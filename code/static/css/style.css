@@ -5,6 +5,27 @@ font-family: 'Special Elite', cursive; */
 
 body{
     font-family: 'Special Elite', cursive;
+    background-image: url("../img/record.jpg");
+    /* background-image: url("../img/vinyl.jpeg") */
+    /* height: 100%; */
+}
+
+/* body::before{
+    content: ' ';
+    background-image: url("static/img/record.jpg");
+    size: 100% 100%;
+    /* background-image: url("static/img/vinyl.jpeg") */
+/* } */
+
+.nav{
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    margin-right: 20px;
+}
+
+button{
+    font-family: 'Special Elite', cursive;
 }
 
 #grid_container1{
@@ -45,8 +66,8 @@ body{
     padding-bottom: 10px;
     display: grid;
     grid-template-areas:
-    'title data';
-    grid-template-columns: 1fr 2fr;
+    'title data edit';
+    grid-template-columns: 7fr 10fr 1fr;
 }
 
 .title{
@@ -61,39 +82,47 @@ body{
     grid-template-areas:
     'support in_stock ordered pre_booked cost price markup';
     grid-template-columns: 1fr .4fr .4fr .4fr .8fr .8fr .8fr;
+    vertical-align: middle;
 }
 
 .support in_stock ordered pre_booked cost price markup{
     grid-area: artist;
     text-align: center;
+    vertical-align: middle;
 }
 .in_stock{
     grid-area: in_stock;
     text-align: center;
+    vertical-align: middle;
 }
 .ordered{
     grid-area: ordered;
     text-align: center;
+    vertical-align: middle;
 }
 .pre_booked{
     grid-area: pre_booked;
     text-align: center;
+    vertical-align: middle;
 }
 .cost{
     grid-area: cost;
     text-align: center;
+    vertical-align: middle;
 }
 
 .price{
     grid-area: price;
     text-align: center;
     border: 1px;
+    vertical-align: middle;
 }
 
 .markup{
     grid-area: markup;
     text-align: center;
     border: 1px;
+    vertical-align: middle;
 }
 
 
@@ -137,4 +166,12 @@ body{
     padding: 6px 6px 2px 6px;
     border-radius: 50%;
     margin: 0px 15px;
+    }
+
+    .edit{
+        grid-area: edit;
+        text-align: center;
+        margin-right: 10px;
+        border: 1px;
+        vertical-align: middle;
     }

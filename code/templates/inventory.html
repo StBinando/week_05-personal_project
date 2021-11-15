@@ -95,6 +95,7 @@
                                                     <span class="price">£{{item.selling_price}}</span>
                                                     <span class="markup">£{{(item.selling_price - item.cost)|round(2)}}</span>
                                                 </span>
+                                                <button class="edit"><a href="/edit/item_{{item.id}}">edit</a></button>
                                             </p>
                                         {% endfor %}
                                     </div>

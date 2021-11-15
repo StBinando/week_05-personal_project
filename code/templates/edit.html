@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+------ EDIT.HTML --------
+<form class="form" action="/edit" method="post">
+
+    <label for="artist">artist</label>
+    <input type="text" name="artist" id="artist">
+
+    <label for="album">album</label>
+    <input type="text" name="album" id="album">
+    
+    <label for="support">support</label>
+    <input type="text" name="support" id="support">
+    
+    <label for="cost">cost</label>
+    <input type="text" name="cost" id="cost">
+    
+
+
+
+    
+
+
+    <!-- <input type="text" name="search" id="AR" list="artist">
+        <datalist id = "artist">
+            {% for artist in artist_names %}
+                <option value='{{artist}}'></option>
+            {% endfor %}
+        </datalist>
+
+    <input type="text" name="search" id="search" list="album">
+        <datalist id = "album">
+            {% for album in album_titles %}
+                <option value='{{album}}'></option>
+            {% endfor %}
+        </datalist> -->
+
+
+  <input class=submit type="submit" value="submit">
+</form>
+{% endblock %}
