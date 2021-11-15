@@ -183,23 +183,5 @@ def inventory_selected(filter = "all", selection = "all"):
 #                            EDIT RECORD
 @app.route('/edit/item_<item_id>')
 def edtit_item(item_id):
-        # creates ordered list of unique values for ALL artists FULL NAME
-    all_artists_unfiltered = artist_repository.show_all()
-    artist_names= []
-    for artist in all_artists_unfiltered:
-        artist_full_name = f'{"" if artist.first_name == None else f"{artist.first_name} "}{artist.last_name}'
-        artist_names.append(artist_full_name)
-    artist_names = sorted(set(artist_names), key = lambda artist_names: artist_names)
-
-    # creates ordered list of unique values for ALL album titles
-    all_items_unfiltered =item_repository.show_all()
-    albums = []
-    for item in all_items_unfiltered:
-        album_title = item.album.title
-        albums.append(album_title)
-    album_titles = sorted(set(albums), key = lambda albums: albums)
-
-    return render_template("edit.html",
-        artists_names = artist_names,
-        album_titles = album_titles
-        )
+    item = item_repository.select_1_item_by_id(item_id)
+    return render_template("edit.html", item=item)

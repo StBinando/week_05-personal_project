@@ -5,16 +5,16 @@
 <form class="form" action="/edit" method="post">
 
     <label for="artist">artist</label>
-    <input type="text" name="artist" id="artist">
+    <input type="text" name="artist" id="artist" value="{{item.album.artist.last_name}}">
 
     <label for="album">album</label>
-    <input type="text" name="album" id="album">
+    <input type="text" name="album" id="album" value="{{item.album.title}}">
     
     <label for="support">support</label>
-    <input type="text" name="support" id="support">
+    <input type="text" name="support" id="support" value="{{item.support}}">
     
     <label for="cost">cost</label>
-    <input type="text" name="cost" id="cost">
+    <input type="text" name="cost" id="cost" value="{{item.cost}}">
     
 
 
