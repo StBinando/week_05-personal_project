@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
+
 {% block content %}
-    <header>
+    <div>
         <!-- ----------- SEARCH / FILTERS ----------- -->
         <!-- -------------- searches -------------- -->
         <p>or search a specific artist/album:<br>(t) means album title</p>
@@ -38,7 +39,7 @@
         {% endfor %}
         <hr>
 
-    </header>
+    </div>
 
 
     <hr>
@@ -49,34 +50,59 @@
         <p>Displaying {{filter}} albums for artists beginning with: {{selection}}</p>
         <section>
             {% for initial in initials %}
-
-                {% if initial == selection or selection == "all" %}
-                    <img src="/static/img/letters/{{initial}}.jpeg" alt={{initial}} width="50px" height="50px">
+                
+                <div id="grid_container1"> <!-- CONTAINER WITH SINGLE INITIAL AND ALL ARTISTS -->
                     
-                    {% for artist in artists_filtered if (artist.last_name[0] == initial) %}
-                        <p>
-                            {{("" if artist.first_name == None else artist.first_name+" ")+artist.last_name}}
-                        </p>
+                    {% if initial == selection or selection == "all" %}
+                        <p class="initial">{{initial}}</p>
 
-                        {% for item in items if item.album.artist.last_name == artist.last_name %}
-                        <p>
-                            {{item.id}}
-                            {{item.album.title}}
-                            {{item.support}}
-                            in stock: {{item.in_stock}}
-                            ordered: {{item.ordered}}
-                            pre-booked: {{pre_booked_items[item.id]}}
-                            <!-- cost: £{{item.cost}}
-                                selling price: £{{item.selling_price}}
-                                markup: £{{(item.selling_price - item.cost)|round(2)}} -->
-                            </p>
-                        {% endfor %}
-                        <p>------------------------------------</p>
+                        <div class="all_artists"> <!-- CONTAINER WITH ALL ARTISTS ALL ITEMS -->
 
-                    {% endfor %}
-                        
-                {% endif %}
+                            {% for artist in artists_filtered if (artist.last_name[0] == initial) %}
+                                <div id="grid_container2">
+                                    <p class="artist">
+                                        {{("" if artist.first_name == None else artist.first_name+" ")+artist.last_name}}
+                                    </p>
+                                    <!-- CONTAINER WITH ALL ITEMS? -->
+                                    <div class="items">
+                                        {% for item in items if item.album.artist.last_name == artist.last_name %}
+                                            <p class="one_item">
+                                                <span class="title">{{item.album.title}}</span>
 
+                                                <span class="item_data">
+                                                    <span class="support"> {{item.support}} </span>
+                                                    <span class="in_stock {% if item.in_stock == 0%}
+                                                                    red
+                                                                {% elif item.in_stock <2 %}
+                                                                    orange
+                                                                {% else %}
+                                                                    green
+                                                                {% endif %}"> 
+                                                                {{item.in_stock}}</span>
+                                                    <span class="ordered {% if item.ordered == 0%}
+                                                                    grey
+                                                                {% else %}
+                                                                    blue
+                                                                {% endif %}">
+                                                                {{item.ordered}}</span>
+                                                    <span class="pre_booked {% if pre_booked_items[item.id] == 0%}
+                                                                    grey
+                                                                {% else %}
+                                                                    cyan
+                                                                {% endif %}">
+                                                                {{pre_booked_items[item.id]}}</span>
+                                                    <span class="cost">{{item.cost}}</span>
+                                                    <span class="price">£{{item.selling_price}}</span>
+                                                    <span class="markup">£{{(item.selling_price - item.cost)|round(2)}}</span>
+                                                </span>
+                                            </p>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
             {% endfor %}
         </section>
     </main>

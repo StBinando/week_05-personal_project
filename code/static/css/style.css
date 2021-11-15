@@ -3,6 +3,138 @@ font-family: 'Lobster', cursive;
 font-family: 'Share', cursive;
 font-family: 'Special Elite', cursive; */
 
-body {
+body{
     font-family: 'Special Elite', cursive;
 }
+
+#grid_container1{
+    display: grid;
+    grid-template-areas:
+        'initial all_artists';
+    grid-template-columns: 1fr 23fr;
+}
+
+.initial{
+    grid-area: initial;
+    text-align: center;
+}
+
+.all_artists{
+    grid-area: all_artists;
+}
+
+#grid_container2{
+    
+    display: grid;
+    grid-template-areas:
+    'artist items';
+    grid-template-columns: 3fr 18fr;
+}
+
+.artist{
+    grid-area: artist;
+    text-align: center;
+}
+
+.items{
+    grid-area: items;
+    padding-bottom: 15px;
+}    
+
+.one_item{
+    padding-bottom: 10px;
+    display: grid;
+    grid-template-areas:
+    'title data';
+    grid-template-columns: 1fr 2fr;
+}
+
+.title{
+    text-align: left;
+    grid-area: title;
+}
+
+.item_data{
+    align-items: right;
+    grid-area: data;
+    display: grid;
+    grid-template-areas:
+    'support in_stock ordered pre_booked cost price markup';
+    grid-template-columns: 1fr .4fr .4fr .4fr .8fr .8fr .8fr;
+}
+
+.support in_stock ordered pre_booked cost price markup{
+    grid-area: artist;
+    text-align: center;
+}
+.in_stock{
+    grid-area: in_stock;
+    text-align: center;
+}
+.ordered{
+    grid-area: ordered;
+    text-align: center;
+}
+.pre_booked{
+    grid-area: pre_booked;
+    text-align: center;
+}
+.cost{
+    grid-area: cost;
+    text-align: center;
+}
+
+.price{
+    grid-area: price;
+    text-align: center;
+    border: 1px;
+}
+
+.markup{
+    grid-area: markup;
+    text-align: center;
+    border: 1px;
+}
+
+
+.red{
+    background-color: red;
+    padding: 6px 6px 2px 6px;
+    border-radius: 50%;
+    margin: 0px 15px;
+}
+
+.orange{
+    background-color: orange;
+    padding: 6px 6px 2px 6px;
+    border-radius: 50%;
+    margin: 0px 15px;
+}
+
+.green{
+    background-color: green;
+    padding: 6px 6px 2px 6px;
+    border-radius: 50%;
+    margin: 0px 15px;
+}
+
+.grey{
+    background-color: #2e2e2e;
+    padding: 6px 6px 2px 6px;
+    border-radius: 50%;
+    margin: 0px 15px;
+}
+
+.blue{
+    background-color: rgb(0, 140, 255);
+    padding: 6px 6px 2px 6px;
+    border-radius: 50%;
+    margin: 0px 15px;
+    }
+
+.cyan{
+    background-color: rgb(0, 255, 234);
+    padding: 6px 6px 2px 6px;
+    border-radius: 50%;
+    margin: 0px 15px;
+    }
