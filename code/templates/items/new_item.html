@@ -2,18 +2,31 @@
 
 
 {% block content %}
+<hr>
+<p>error: {{error}}</p>
+<hr>
 
 <div class="form_container">
-    <form id="edit_item" class="form" action="/edit" method="post">
+    <form id="edit_item" class="form" action="/item/new" method="post">
 
-        <input class="input_artist" type="text" name="search1" id="search1" list="datalist1">
+        <label class="input_label1" for="artist">
+            Select artist
+            <br>
+            <p>(if the artist in not in the list click on the button to create a new one)</p>
+        </label>
+        <input class="input_artist" type="text" name="artist" id="artist" list="datalist1" value="{{input_artist}}">
         <datalist id = "datalist1">
             {% for artist in artists %}
                 <option value='{{artist}}'></option>
             {% endfor %}
         </datalist>
 
-        <input class="input_album" type="text" name="search2" id="search2" list="datalist2">
+        <label class="input_label2" for="album">
+            Select album
+            <br>
+            <p>(if the album in not in the list click on the button to create a new one)</p>
+        </label>
+        <input class="input_album" type="text" name="album" id="album" list="datalist2"  value="{{input_album}}">
         <datalist id = "datalist2">
             {% for album in albums %}
                 <option value='(t) {{album}}'></option>
@@ -22,21 +35,23 @@
 
     
         <label class="label_support" for="support">support</label>
-        <input class="value_support" type="text" name="support" id="support">
+        <input class="value_support" type="text" name="support" id="support" value="{{input_support}}">
         
         <label class="label_cost" for="cost">cost £</label>
-        <input class="value_cost" type="number" name="cost" id="cost">
+        <input class="value_cost" type="number" name="cost" id="cost" value="{{input_cost}}">
         
-        <label class="label_price" for="selling_price">selling_price £</label>
-        <input class="value_price" type="number" name="selling_price" id="selling_price">
+        <label class="label_price" for="price">selling price £</label>
+        <input class="value_price" type="number" name="price" id="price" value="{{input_price}}">
         
         <label class="label_stock" for="in_stock">in stock</label>
-        <input class="value_stock" type="number" name="in_stock" id="in_stock">
+        <input class="value_stock" type="number" name="in_stock" id="in_stock" value="{{input_in_stock}}">
         
         <label class="label_ordered" for="ordered">ordered</label>
-        <input class="value_ordered" type="number" name="ordered" id="ordered">
+        <input class="value_ordered" type="number" name="ordered" id="ordered" value="{{input_ordered}}">
     
         <input class="submit" type="submit" value="submit">
     </form>
+    <button><a href="/artist/new">create new artist</a></button>
+    <button><a href="/album/new">create new album</a></button>
 </div>
 {% endblock %}

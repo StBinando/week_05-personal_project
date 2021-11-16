@@ -18,16 +18,16 @@
             first name<br>
             <span>("The" for bands or leave blank in not applicable)</span>
         </label>
-        <input class="first_name_value" type="text" name="first_name_value" id="first_name_value">
+        <input class="first_name_value" type="text" name="first_name_value" id="first_name_value" value="{{input_artist[0]}}">
         
         <label class="last_name_label" for="last_name_value">(*)last name</label>
-        <input class="last_name_value" type="text" name="last_name_value" id="last_name_value">
+        <input class="last_name_value" type="text" name="last_name_value" id="{{last_name_value}}" value="{{input_artist[1]}}">
         
     
         <input class="submit" type="submit" value="submit">
     </form>
 
-    <button class="back"><a href="/item/new">BACK</a></button>
+    <button class="back"><a href="/item/new">BACK to create new item</a></button>
 
 </div>
 {% endblock %}

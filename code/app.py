@@ -10,8 +10,8 @@ app.register_blueprint(artists_blueprint)
 app.register_blueprint(album_blueprint)
 
 @app.route('/')
-def home(msg = None):
-    return render_template('index.html', msg = msg)
+def home():
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

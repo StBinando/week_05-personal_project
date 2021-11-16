@@ -1,14 +1,7 @@
 from flask import Flask, redirect, render_template, request
 from flask import Blueprint
-# from jinja2.environment import TemplateStream
-# from app import app
 from collections import Counter
-
-# CLASSES
-# from models.item import Item
-# from models.album import Album
-# from models.artist import Artist
-# from models.customer_item import CustomerItem
+from models.item import Item
 
 #  REPOSITORIES
 import repositories.item_repository as item_repository
@@ -40,11 +33,114 @@ def create_list_of_all_album_titles():
     return album_titles
 
 
+
+
+# ===================
+# --- R O U T E S ---
+# ===================
 @items_blueprint.route('/item/new', methods=['GET'])
-def show_form_new_item():
-    artist_names = create_list_of_all_artists_full_names()
-    album_titles = create_list_of_all_album_titles()
-    return render_template("/items/new_item.html", artists = artist_names, albums = album_titles)
+def show_form_new_item(
+    error = "",
+    input_artist = "",
+    input_album = "",
+    input_support = "",
+    input_cost = "",
+    input_price = "",
+    input_in_stock = "",
+    input_ordered = "",
+    ):
+
+    full_names_list = create_list_of_all_artists_full_names()
+    titles_list = create_list_of_all_album_titles()
+
+    return render_template(
+        "/items/new_item.html",
+        error = error,
+        input_artist = input_artist,
+        input_album = input_album,
+        input_support = input_support,
+        input_cost = input_cost,
+        input_price = input_price,
+        input_in_stock = input_in_stock,
+        input_ordered = input_ordered,
+        artists = full_names_list,
+        albums = titles_list
+        )
+        
+
+
+@items_blueprint.route('/item/new', methods=['POST'])
+def get_form_new_item():
+
+    error = None
+    input_artist = request.form['artist']
+    input_album = request.form['album']
+    input_support = request.form['support']
+    input_cost = request.form['cost']
+    input_price = request.form['price']
+    input_in_stock = request.form['in_stock']
+    input_ordered = request.form['ordered']
+
+    full_names_list = create_list_of_all_artists_full_names()
+    name_exists = False
+    for name in full_names_list:
+        if name == input_artist:
+            name_exists = True
+            break
+
+    titles_list = create_list_of_all_album_titles()
+    title_exists = False
+    for title in titles_list:
+        if title == input_album[4:]:
+            title_exists = True
+            break
+
+    artist_album_exists = False
+    albums_list = album_repository.show_all()
+    for album in albums_list:
+        artist_full_name = f'{"" if album.artist.first_name == None else f"{album.artist.first_name} "}{album.artist.last_name}'
+        if artist_full_name == input_artist:
+            if album.title == input_album[4:]:
+                artist_album_exists = album
+                break
+
+    if input_artist == "": error = "Artist is required"
+    elif name_exists == False: error = "the artist typed doesn't exists. Please click on the button to create it"
+    elif input_album == "": error = "Title is required"
+    elif title_exists == False: error = "the album typed doesn't exists. Please click on the button to create it"
+    elif artist_album_exists == False: error = "This album doesn't exists with this artist. Please check the combination of artist and album, or create a new one"
+    elif input_support == "": error = "Support is required"
+    elif input_cost == "": error = "Cost is required"
+    elif input_price == "": error = "Selling price is required"
+    else:
+        existing_items = item_repository.show_all()
+        for item in existing_items:
+            if item.album.id == artist_album_exists.id and item.support == input_support:
+                error = "This album, by this artist, on this support, already exists"
+
+    if error == None:
+        new_item = Item(album, input_support, input_cost, input_price, input_in_stock, input_ordered)
+        item_repository.add_item(new_item)
+        
+        return redirect("/items")
+    else:
+        full_names_list = create_list_of_all_artists_full_names()
+        titles_list = create_list_of_all_album_titles()
+
+
+        return render_template(
+            "/items/new_item.html",
+            error = error,
+            input_artist = input_artist,
+            input_album = input_album,
+            input_support = input_support,
+            input_cost = input_cost,
+            input_price = input_price,
+            input_in_stock = input_in_stock,
+            input_ordered = input_ordered,
+            artists = full_names_list,
+            albums = titles_list
+            )
 
 
 @items_blueprint.route('/items/search', methods=['POST'])
@@ -69,20 +165,6 @@ def show_search(result):
 
     artist_names = create_list_of_all_artists_full_names()
     album_titles = create_list_of_all_album_titles()
-    # creates ordered list of unique values for ALL artists FULL NAME
-    # artist_names= []
-    # for artist in all_artists_unfiltered:
-    #     artist_full_name = f'{"" if artist.first_name == None else f"{artist.first_name} "}{artist.last_name}'
-    #     artist_names.append(artist_full_name)
-    # artist_names = sorted(set(artist_names), key = lambda artist_names: artist_names)
-
-    # # creates ordered list of unique values for ALL album titles
-    # all_items_unfiltered =item_repository.show_all()
-    # albums = []
-    # for item in all_items_unfiltered:
-    #     album_title = item.album.title
-    #     albums.append(album_title)
-    # album_titles = sorted(set(albums), key = lambda albums: albums)
     all_artists_unfiltered = artist_repository.show_all()
 
     initials = []
@@ -124,27 +206,8 @@ def inventory_selected(filter = "all", selection = "all"):
     # sets initial error message to None
     error = None
 
-
     artist_names = create_list_of_all_artists_full_names()
     album_titles = create_list_of_all_album_titles()
-    # # creates ordered list of unique values for ALL artists FULL NAME
-    # all_artists_unfiltered = artist_repository.show_all()
-    # artist_names= []
-    # for artist in all_artists_unfiltered:
-    #     artist_full_name = f'{"" if artist.first_name == None else f"{artist.first_name} "}{artist.last_name}'
-    #     artist_names.append(artist_full_name)
-    # artist_names = sorted(set(artist_names), key = lambda artist_names: artist_names)
-
-    # # creates ordered list of unique values for ALL album titles
-    # all_items_unfiltered =item_repository.show_all()
-    # albums = []
-    # for item in all_items_unfiltered:
-    #     album_title = item.album.title
-    #     albums.append(album_title)
-    # album_titles = sorted(set(albums), key = lambda albums: albums)
-
-
-
 
     # if filter is "ALL" returns a list of ALL Item objects, unfiltered
     if filter == "all":
@@ -154,9 +217,7 @@ def inventory_selected(filter = "all", selection = "all"):
             results = item_repository.select_by_selection(selection)
         if len(results) == 0:
             error = "The inventory is empty!"
-    
-    
-    
+
     # if filter is ANYTHING ELSE returns a list of ALL Item objects
     # based on criteria set on item_repository     
     else:

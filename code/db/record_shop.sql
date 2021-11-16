@@ -12,13 +12,13 @@ CREATE TABLE artists (
 
 CREATE TABLE albums (
   id SERIAL PRIMARY KEY,
-  artist_id INT REFERENCES artists(id),
+  artist_id INT REFERENCES artists(id) ON DELETE CASCADE,
   title VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE items (
   id SERIAL PRIMARY KEY,
-  album_id INT REFERENCES albums(id),
+  album_id INT REFERENCES albums(id) ON DELETE CASCADE,
   support VARCHAR(255) NOT NULL,
   cost FLOAT NOT NULL,
   selling_price FLOAT NOT NULL,
@@ -34,6 +34,6 @@ CREATE TABLE customers (
 
 CREATE TABLE customers_items (
   id SERIAL PRIMARY KEY,
-  customer_id INT REFERENCES customers(id),
-  item_id INT REFERENCES items(id)
+  customer_id INT REFERENCES customers(id) ON DELETE CASCADE,
+  item_id INT REFERENCES items(id) ON DELETE CASCADE
 );
