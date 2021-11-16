@@ -1,14 +1,14 @@
 from flask import Flask, redirect, render_template, request
 from flask import Blueprint
-from jinja2.environment import TemplateStream
-from app import app
+# from jinja2.environment import TemplateStream
+# from app import app
 from collections import Counter
 
 # CLASSES
-from models.item import Item
-from models.album import Album
-from models.artist import Artist
-from models.customer_item import CustomerItem
+# from models.item import Item
+# from models.album import Album
+# from models.artist import Artist
+# from models.customer_item import CustomerItem
 
 #  REPOSITORIES
 import repositories.item_repository as item_repository
@@ -18,24 +18,32 @@ import repositories.customer_item_repository as customer_item_repository
 
 items_blueprint = Blueprint("items", __name__)
 
-@items_blueprint.route('/item/new', methods=['GET'])
-def show_form_new_item():
-    # creates ordered list of unique values for ALL artists FULL NAME
+
+# --- UTILITY FUNCTION --- creates ordered list of unique values for ALL artists FULL NAME
+def create_list_of_all_artists_full_names():
     all_artists_unfiltered = artist_repository.show_all()
     artist_names= []
     for artist in all_artists_unfiltered:
         artist_full_name = f'{"" if artist.first_name == None else f"{artist.first_name} "}{artist.last_name}'
         artist_names.append(artist_full_name)
     artist_names = sorted(set(artist_names), key = lambda artist_names: artist_names)
+    return artist_names
 
-    # creates ordered list of unique values for ALL album titles
-    all_items_unfiltered =item_repository.show_all()
+# --- UTILITY FUNCTION --- creates ordered list of unique values for ALL album titles
+def create_list_of_all_album_titles():
+    all_albums =album_repository.show_all()
     albums = []
-    for item in all_items_unfiltered:
-        album_title = item.album.title
+    for album in all_albums:
+        album_title = album.title
         albums.append(album_title)
     album_titles = sorted(set(albums), key = lambda albums: albums)
+    return album_titles
 
+
+@items_blueprint.route('/item/new', methods=['GET'])
+def show_form_new_item():
+    artist_names = create_list_of_all_artists_full_names()
+    album_titles = create_list_of_all_album_titles()
     return render_template("/items/new_item.html", artists = artist_names, albums = album_titles)
 
 
@@ -59,21 +67,23 @@ def show_search(result):
     items = sorted(items, key=lambda item: (item.album.title, item.support))
 
 
+    artist_names = create_list_of_all_artists_full_names()
+    album_titles = create_list_of_all_album_titles()
     # creates ordered list of unique values for ALL artists FULL NAME
-    all_artists_unfiltered = artist_repository.show_all()
-    artist_names= []
-    for artist in all_artists_unfiltered:
-        artist_full_name = f'{"" if artist.first_name == None else f"{artist.first_name} "}{artist.last_name}'
-        artist_names.append(artist_full_name)
-    artist_names = sorted(set(artist_names), key = lambda artist_names: artist_names)
+    # artist_names= []
+    # for artist in all_artists_unfiltered:
+    #     artist_full_name = f'{"" if artist.first_name == None else f"{artist.first_name} "}{artist.last_name}'
+    #     artist_names.append(artist_full_name)
+    # artist_names = sorted(set(artist_names), key = lambda artist_names: artist_names)
 
-    # creates ordered list of unique values for ALL album titles
-    all_items_unfiltered =item_repository.show_all()
-    albums = []
-    for item in all_items_unfiltered:
-        album_title = item.album.title
-        albums.append(album_title)
-    album_titles = sorted(set(albums), key = lambda albums: albums)
+    # # creates ordered list of unique values for ALL album titles
+    # all_items_unfiltered =item_repository.show_all()
+    # albums = []
+    # for item in all_items_unfiltered:
+    #     album_title = item.album.title
+    #     albums.append(album_title)
+    # album_titles = sorted(set(albums), key = lambda albums: albums)
+    all_artists_unfiltered = artist_repository.show_all()
 
     initials = []
     for artist in all_artists_unfiltered:
@@ -114,21 +124,24 @@ def inventory_selected(filter = "all", selection = "all"):
     # sets initial error message to None
     error = None
 
-    # creates ordered list of unique values for ALL artists FULL NAME
-    all_artists_unfiltered = artist_repository.show_all()
-    artist_names= []
-    for artist in all_artists_unfiltered:
-        artist_full_name = f'{"" if artist.first_name == None else f"{artist.first_name} "}{artist.last_name}'
-        artist_names.append(artist_full_name)
-    artist_names = sorted(set(artist_names), key = lambda artist_names: artist_names)
 
-    # creates ordered list of unique values for ALL album titles
-    all_items_unfiltered =item_repository.show_all()
-    albums = []
-    for item in all_items_unfiltered:
-        album_title = item.album.title
-        albums.append(album_title)
-    album_titles = sorted(set(albums), key = lambda albums: albums)
+    artist_names = create_list_of_all_artists_full_names()
+    album_titles = create_list_of_all_album_titles()
+    # # creates ordered list of unique values for ALL artists FULL NAME
+    # all_artists_unfiltered = artist_repository.show_all()
+    # artist_names= []
+    # for artist in all_artists_unfiltered:
+    #     artist_full_name = f'{"" if artist.first_name == None else f"{artist.first_name} "}{artist.last_name}'
+    #     artist_names.append(artist_full_name)
+    # artist_names = sorted(set(artist_names), key = lambda artist_names: artist_names)
+
+    # # creates ordered list of unique values for ALL album titles
+    # all_items_unfiltered =item_repository.show_all()
+    # albums = []
+    # for item in all_items_unfiltered:
+    #     album_title = item.album.title
+    #     albums.append(album_title)
+    # album_titles = sorted(set(albums), key = lambda albums: albums)
 
 
 
