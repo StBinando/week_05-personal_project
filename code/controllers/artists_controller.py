@@ -41,17 +41,17 @@ def show_form_new_artist(back = None, error = None, input_new_artist = None, inp
         
 
 
-@artists_blueprint.route('/artists/new', methods=['POST'])
+@artists_blueprint.route('/artist/new', methods=['POST'])
 def get_form_new_artist(back = None, error = None, input_new_artist = None, input_new_album = None, input_new_item = None):
     
-    back = back
-    input_new_album = input_new_album
-    input_new_item = input_new_item
+    # back = back
+    # input_new_album = input_new_album
+    # input_new_item = input_new_item
     error = None
     input_new_artist = []
     input_new_artist.append(request.form['first_name_value'])
     input_new_artist.append(request.form['last_name_value'])
-    if input_new_artist[1] == None:
+    if input_new_artist[1] == "":
         error = "Last name is required"
     else:
         existing_artists = artist_repository.show_all()
@@ -60,15 +60,16 @@ def get_form_new_artist(back = None, error = None, input_new_artist = None, inpu
                 error = "This artist already exists"
 
     if error == None:
-        # add function to POST on db
-        # ==========================
+        new_artist = Artist(input_new_artist[1], input_new_artist[0])
+        artist_repository.add_artist(new_artist)
         return redirect("/")
     else:
         return render_template(
-        "/artists/new_artist.html",
-        back = back,
-        error = error,
-        input_new_artist = input_new_artist,
-        input_new_album = input_new_album,
-        input_new_item = input_new_item
-        )
+            "/artists/new_artist.html",
+            back = back,
+            error = error,
+            input_new_artist = input_new_artist,
+            input_new_album = input_new_album,
+            input_new_item = input_new_item
+            )
+    # return redirect("/")
