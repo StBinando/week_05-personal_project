@@ -6,7 +6,7 @@ def run_sql(sql, values = None):
     results = []
 
     try:
-        conn=psycopg2.connect("dbname='rubberduck_records'")
+        conn=psycopg2.connect("dbname='record_shop'")
         cur = conn.cursor(cursor_factory=ext.DictCursor)   
         cur.execute(sql, values)
         conn.commit()

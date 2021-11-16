@@ -13,7 +13,7 @@ import repositories.customer_repository as customer_repository
 import repositories.customer_item_repository as customer_item_repository
 
 import os
-os.system('psql -d rubberduck_records -f db/rubberduck_records.sql')
+os.system('psql -d record_shop -f db/record_shop.sql')
 
 
 # --------------------------- CREATES ARTISTS ------------------------------

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RubberDuck Records</title>
+    <title>Overcomplicated Records</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Lobster&family=Share:ital,wght@0,400;0,700;1,400;1,700&family=Special+Elite&display=swap" rel="stylesheet">
@@ -13,15 +13,13 @@
 </head>
 <body>
     <Header>
-        <img src="static/img/punkduck.jpeg" alt="Punk Duck" width="90" height="120">
-        <br>
+        <img src="{{ url_for('static', filename='img/OR_logo.png') }}" alt="Overcomplicate Records" width="335" height="94">
         <nav class="nav">
+            <a href="/edit">add...</a>
+            <a href="/inventory/all/all">inventory</a>
             <a href="/">HOME</a>
-            <a href="/inventory/all/all">Inventory</a>
-            <p>Edit</p>
             <!-- <a href="/edit/item">Edit</a> NEEDS TO SELECT WHAT TO EDIT!!!-->
         </nav>
-        <hr>
     </Header>
     {% block content %}
 

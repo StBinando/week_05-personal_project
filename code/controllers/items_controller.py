@@ -181,7 +181,7 @@ def inventory_selected(filter = "all", selection = "all"):
     )
 
 #                            EDIT RECORD
-@app.route('/edit/item_<item_id>')
+@app.route('/items/:<item_id>/edit')
 def edtit_item(item_id):
     item = item_repository.select_1_item_by_id(item_id)
     return render_template("edit.html", item=item)

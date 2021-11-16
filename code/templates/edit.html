@@ -1,42 +1,31 @@
 {% extends "base.html" %}
 
 {% block content %}
------- EDIT.HTML --------
-<form class="form" action="/edit" method="post">
-
-    <label for="artist">artist</label>
-    <input type="text" name="artist" id="artist" value="{{item.album.artist.last_name}}">
-
-    <label for="album">album</label>
-    <input type="text" name="album" id="album" value="{{item.album.title}}">
+<div class="form_container">
+    <form id="edit_item" class="form" action="/edit" method="post">
+        <p class="id">id: {{item.id}}</p>
+        <p class="artist">artist: {{item.album.artist.last_name}}</p>
+        <p class="album">album: {{item.album.title}}</p>
     
-    <label for="support">support</label>
-    <input type="text" name="support" id="support" value="{{item.support}}">
+        <label class="label_support" for="support">support</label>
+        <input class="value_support" type="text" name="support" id="support" value="{{item.support}}">
+        
+        <label class="label_cost" for="cost">cost £</label>
+        <input class="value_cost" type="number" name="cost" id="cost" value="{{item.cost}}">
+        
+        <label class="label_price" for="selling_price">selling_price £</label>
+        <input class="value_price" type="number" name="selling_price" id="selling_price" value="{{item.selling_price}}">
     
-    <label for="cost">cost</label>
-    <input type="text" name="cost" id="cost" value="{{item.cost}}">
+        <p class="label_markup">markup £</p>
+        <p class="value_markup">{{(item.selling_price - item.cost)|round(2)}}</p>
+        
+        <label class="label_stock" for="in_stock">in stock</label>
+        <input class="value_stock" type="number" name="in_stock" id="in_stock" value="{{item.in_stock}}">
+        
+        <label class="label_ordered" for="ordered">ordered</label>
+        <input class="value_ordered" type="number" name="ordered" id="ordered" value="{{item.ordered}}">
     
-
-
-
-    
-
-
-    <!-- <input type="text" name="search" id="AR" list="artist">
-        <datalist id = "artist">
-            {% for artist in artist_names %}
-                <option value='{{artist}}'></option>
-            {% endfor %}
-        </datalist>
-
-    <input type="text" name="search" id="search" list="album">
-        <datalist id = "album">
-            {% for album in album_titles %}
-                <option value='{{album}}'></option>
-            {% endfor %}
-        </datalist> -->
-
-
-  <input class=submit type="submit" value="submit">
-</form>
+        <input class="submit" type="submit" value="submit">
+    </form>
+</div>
 {% endblock %}
