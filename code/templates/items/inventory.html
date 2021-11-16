@@ -6,7 +6,7 @@
         <!-- -------------- searches -------------- -->
         <div class="search filter">
             <p class="filter_txt">search a specific artist/album:<br>(t) means album title</p>
-            <form class="form" action="/inventory/search" method="post">
+            <form class="form" action="/items/search" method="post">
                 <input class="input" type="text" name="search" id="search" list="datalist1">
                 <datalist id = "datalist1">
                     {% for artist in artist_names %}
@@ -24,10 +24,10 @@
         <div class="filter">
             <p class="filter_txt">filter by availability:</p>
             <div class="availability ">
-                <button class="filter_btn"><a href="/inventory/all/{{selection}}">all</a></button>
-                <button class="filter_btn"><a href="/inventory/in_stock/{{selection}}">in stock</a></button>
-                <button class="filter_btn"><a href="/inventory/ordered/{{selection}}">ordered</a></button>
-                <button class="filter_btn"><a href="/inventory/pre_booked/{{selection}}">pre-booked</a></button>
+                <button class="filter_btn"><a href="/items/all/{{selection}}">all</a></button>
+                <button class="filter_btn"><a href="/items/in_stock/{{selection}}">in stock</a></button>
+                <button class="filter_btn"><a href="/items/ordered/{{selection}}">ordered</a></button>
+                <button class="filter_btn"><a href="/items/pre_booked/{{selection}}">pre-booked</a></button>
             </div>
         </div>
         
@@ -36,9 +36,9 @@
         <div class="select filter">
             <p class="filter_txt">browse by initial:</p>
             <div class="browse_btns">
-                <button class="initials_buttons all"><a href="/inventory/{{filter}}/all">ALL</a></button>
+                <button class="initials_buttons all"><a href="/items/{{filter}}/all">ALL</a></button>
                 {% for initial in initials %}
-                    <button class="initials_buttons"><a href="/inventory/{{filter}}/{{initial}}">{{initial}}</a></button>
+                    <button class="initials_buttons"><a href="/items/{{filter}}/{{initial}}">{{initial}}</a></button>
                 {% endfor %}
             </div>
         </div>

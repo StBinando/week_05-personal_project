@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<p>enter new artist
+    <br>
+    fields marked with (*) are required
+</p>
+<div class="form_new_artist">
+    <form id="form_new_artist" class="form" action="/artist/new" method="post">
+    
+        <label class="first_name_label" for="first_name_value">
+            first name<br>
+            <span>("The" for bands or leave blank in not applicable)</span>
+        </label>
+        <input class="first_name_value" type="text" name="first_name_value" id="first_name_value">
+        
+        <label class="last_name_label" for="last_name_value">(*)last name</label>
+        <input class="last_name_value" type="text" name="last_name_value" id="last_name_value">
+        
+    
+        <input class="submit" type="submit" value="submit">
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<p>{{artists[0]}}</p>
+<div class="form_container">
+    <form id="edit_item" class="form" action="/edit" method="post">
+
+        <input class="input_artist" type="text" name="search1" id="search1" list="datalist1">
+        <datalist id = "datalist1">
+            {% for artist in artists %}
+                <option value='{{artist}}'></option>
+            {% endfor %}
+        </datalist>
+
+        <input class="input_album" type="text" name="search2" id="search2" list="datalist2">
+        <datalist id = "datalist2">
+            {% for album in albums %}
+                <option value='(t) {{album}}'></option>
+            {% endfor %}
+        </datalist>
+
+    
+        <label class="label_support" for="support">support</label>
+        <input class="value_support" type="text" name="support" id="support">
+        
+        <label class="label_cost" for="cost">cost £</label>
+        <input class="value_cost" type="number" name="cost" id="cost">
+        
+        <label class="label_price" for="selling_price">selling_price £</label>
+        <input class="value_price" type="number" name="selling_price" id="selling_price">
+        
+        <label class="label_stock" for="in_stock">in stock</label>
+        <input class="value_stock" type="number" name="in_stock" id="in_stock">
+        
+        <label class="label_ordered" for="ordered">ordered</label>
+        <input class="value_ordered" type="number" name="ordered" id="ordered">
+    
+        <input class="submit" type="submit" value="submit">
+    </form>
+</div>
+{% endblock %}

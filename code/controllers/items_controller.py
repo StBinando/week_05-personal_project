@@ -1,4 +1,5 @@
 from flask import Flask, redirect, render_template, request
+from flask import Blueprint
 from jinja2.environment import TemplateStream
 from app import app
 from collections import Counter
@@ -15,14 +16,36 @@ import repositories.artist_repository as artist_repository
 import repositories.album_repository as album_repository
 import repositories.customer_item_repository as customer_item_repository
 
+items_blueprint = Blueprint("items", __name__)
 
-@app.route('/inventory/search', methods=['POST'])
+@items_blueprint.route('/item/new', methods=['GET'])
+def show_form_new_item():
+    # creates ordered list of unique values for ALL artists FULL NAME
+    all_artists_unfiltered = artist_repository.show_all()
+    artist_names= []
+    for artist in all_artists_unfiltered:
+        artist_full_name = f'{"" if artist.first_name == None else f"{artist.first_name} "}{artist.last_name}'
+        artist_names.append(artist_full_name)
+    artist_names = sorted(set(artist_names), key = lambda artist_names: artist_names)
+
+    # creates ordered list of unique values for ALL album titles
+    all_items_unfiltered =item_repository.show_all()
+    albums = []
+    for item in all_items_unfiltered:
+        album_title = item.album.title
+        albums.append(album_title)
+    album_titles = sorted(set(albums), key = lambda albums: albums)
+
+    return render_template("/items/new_item.html", artists = artist_names, albums = album_titles)
+
+
+@items_blueprint.route('/items/search', methods=['POST'])
 def get_search():
     result = request.form['search']
-    return redirect(f"/inventory/search_result{result}")
+    return redirect(f"/items/search_result{result}")
 
 
-@app.route('/inventory/search_result<result>', methods=['GET'])
+@items_blueprint.route('/items/search_result<result>', methods=['GET'])
 def show_search(result):
 
     if result[0:3] == "(t)":
@@ -67,7 +90,7 @@ def show_search(result):
     pre_booked_items = Counter(pre_booked_items)
 
     return render_template(
-        "inventory.html",
+        "items/inventory.html",
         filter ="all",
         selection = artist_found.last_name[0],
         error = None,
@@ -84,7 +107,8 @@ def show_search(result):
 #                           INVENTORY FILTER/INITIAL
 # returns a list of items to display
 # based on "filter" (availability/genre/label) ONLY, doesn't use "selection" (initials)
-@app.route('/inventory/<filter>/<selection>', methods=['GET'])
+# @items_blueprint.route('/items?filter=<filter>&selection=<selection', methods=['GET'])
+@items_blueprint.route('/items/<filter>/<selection>', methods=['GET'])
 def inventory_selected(filter = "all", selection = "all"):
 
     # sets initial error message to None
@@ -168,7 +192,7 @@ def inventory_selected(filter = "all", selection = "all"):
         artists_filtered = sorted(artists_filtered, key=lambda artist: (artist.last_name, artist.first_name))
 
     return render_template(
-        "inventory.html",
+        "/items/inventory.html",
         filter = filter, # value for availability selected (str)
         selection = selection, # value for initial selected (str)
         error = error, # error message returned if the list is empty
@@ -181,7 +205,7 @@ def inventory_selected(filter = "all", selection = "all"):
     )
 
 #                            EDIT RECORD
-@app.route('/items/:<item_id>/edit')
+@items_blueprint.route('/items/:<item_id>/edit')
 def edtit_item(item_id):
     item = item_repository.select_1_item_by_id(item_id)
-    return render_template("edit.html", item=item)
+    return render_template("/items/edit.html", item=item)
