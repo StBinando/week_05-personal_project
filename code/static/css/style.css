@@ -99,7 +99,9 @@ main{
 
 .filter_txt{
     padding: 10px;
-    margin-left: 15px;
+    /* margin-left: 15px; */
+    margin: auto;
+    text-align: center;
     font-size: 1.2em;
     color: #fff;
 }

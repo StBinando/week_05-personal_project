@@ -24,6 +24,19 @@ def create_list_of_all_artists_full_names():
     artist_names = sorted(set(artist_names), key = lambda artist_names: artist_names)
     return artist_names
 
+def create_list_of_all_artists_full_names_for_search():
+    all_artists_unfiltered = artist_repository.show_all()
+    all_items = item_repository.show_all()
+    artist_names= []
+    for artist in all_artists_unfiltered:
+        for item in all_items:
+            if artist.id == item.album.artist.id:
+                artist_full_name = f'{"" if artist.first_name == None else f"{artist.first_name} "}{artist.last_name}'
+                break
+        artist_names.append(artist_full_name)
+    artist_names = sorted(set(artist_names), key = lambda artist_names: artist_names)
+    return artist_names
+
 # --- UTILITY FUNCTION ---
 # creates ordered list of unique values for ALL album titles
 def create_list_of_all_album_titles():
@@ -35,6 +48,19 @@ def create_list_of_all_album_titles():
     album_titles = sorted(set(albums), key = lambda albums: albums)
     return album_titles
 
+def create_list_of_all_album_titles_for_search():
+    all_albums =album_repository.show_all()
+    all_items = item_repository.show_all()
+
+    albums = []
+    for album in all_albums:
+        for item in all_items:
+            if album.id == item.album.id:
+                album_title = album.title
+                break
+        albums.append(album_title)
+    album_titles = sorted(set(albums), key = lambda albums: albums)
+    return album_titles
 
 
 
@@ -226,16 +252,24 @@ def get_form_new_item():
 @items_blueprint.route('/items/search', methods=['POST'])
 def get_search():
     result = request.form['search']
-    full_names_list = create_list_of_all_artists_full_names()
+    full_names_list = create_list_of_all_artists_full_names_for_search()
     name_exists = False
     for name in full_names_list:
         if name == result:
             name_exists = True
             break
-    if name_exists:
+
+    albums_list = create_list_of_all_album_titles_for_search()
+    album_exists =False
+    for album in albums_list:
+        if album == result:
+            album_exists = True
+            break
+    if name_exists or album_exists:
         return redirect(f"/items/search_result{result}")
     else:
         return redirect('/items/all/all')
+
 
 @items_blueprint.route('/items/search_result<result>', methods=['GET'])
 def show_search(result):
@@ -251,8 +285,8 @@ def show_search(result):
     items = sorted(items, key=lambda item: (item.album.title, item.support))
 
 
-    artist_names = create_list_of_all_artists_full_names()
-    album_titles = create_list_of_all_album_titles()
+    artist_names = create_list_of_all_artists_full_names_for_search()
+    album_titles = create_list_of_all_album_titles_for_search()
     all_artists_unfiltered = artist_repository.show_all()
 
     initials = []
@@ -293,8 +327,8 @@ def inventory_selected(filter = "all", selection = "all"):
     # sets initial error message to None
     error = None
 
-    artist_names = create_list_of_all_artists_full_names()
-    album_titles = create_list_of_all_album_titles()
+    artist_names = create_list_of_all_artists_full_names_for_search()
+    album_titles = create_list_of_all_album_titles_for_search()
 
     # if filter is "ALL" returns a list of ALL Item objects, unfiltered
     if filter == "all":
