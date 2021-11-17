@@ -330,12 +330,20 @@ def inventory_selected(filter = "all", selection = "all"):
     artist_names = create_list_of_all_artists_full_names_for_search()
     album_titles = create_list_of_all_album_titles_for_search()
 
-    # if filter is "ALL" returns a list of ALL Item objects, unfiltered
+    # if filter is "ALL"...
     if filter == "all":
+        # ...ant the "selection" (initials) is "ALL"
+        # it returns a list of ALL Item objects, unfiltered
         if selection == "all":
             results = item_repository.show_all()
+        # otherwise it returns a list of ITEM OBJECTS WHERE THE
+        # first letter of the argument item > album > artist > last_name
+        # matches the selection
         else:
             results = item_repository.select_by_selection(selection)
+
+        # in both cases, then it checks if the list is empty and
+        # in that case returns an error message
         if len(results) == 0:
             error = "The inventory is empty!"
 
@@ -343,8 +351,14 @@ def inventory_selected(filter = "all", selection = "all"):
     # based on criteria set on item_repository     
     else:
         results_filtered = item_repository.select_filtered(filter)
+        
+        # then it checks if an initial has been selected
         if selection == "all":
             results = results_filtered
+        
+        # and in that case goes through the list already filtered
+        # to narrow it down to only the items that match the criteria
+        # for the initial as above
         else:
             results = []
             for rf in results_filtered:
@@ -354,13 +368,16 @@ def inventory_selected(filter = "all", selection = "all"):
         if len(results) == 0:
             error = f"There are no {filter} items to display"
     
-    # if the list is not empty
+
     initials = []
     artists_filtered = []
     items_sorted = []
     pre_booked_items = []
+
+    # if the list is not empty
     if error == None:
         all_items_filtered = results
+
         # checks the number of pre-booked items in customers_items table
         # that match items in the filtered list 
         all_pre_booked_items = customer_item_repository.show_all()
@@ -370,9 +387,9 @@ def inventory_selected(filter = "all", selection = "all"):
                 if pbi.item.id == item.id:
                     pre_booked_items.append(pbi.item.id)
         pre_booked_items = Counter(pre_booked_items)
+
         # sorts the list of item OBJECTS by album title, then support
         items_sorted = sorted(all_items_filtered, key=lambda item: (item.album.title, item.support))
-        
         
         # creates a list of unique artists OBJECTS applying the same filter
         artists_filtered = artist_repository.select_filtered(filter)
@@ -381,7 +398,6 @@ def inventory_selected(filter = "all", selection = "all"):
         for artist in artists_filtered:
             initials.append(artist.last_name[0])
 
-        
         # sorts both initials and artists lists
         initials = sorted(set(initials))
         artists_filtered = sorted(artists_filtered, key=lambda artist: (artist.last_name, artist.first_name))
