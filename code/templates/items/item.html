@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if delete_artist %}
+    <p>last item for the artist - it will be deleted</p>
+{% elif delete_album %}
+    <p>last item for the album - album will be deleted</p>
+{% else %}
+    <p>...you shouldn't be here</p>
+{% endif %}
+
+{% endblock %}

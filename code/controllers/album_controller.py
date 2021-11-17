@@ -23,6 +23,25 @@ def create_list_of_all_artists_full_names():
     artist_names = sorted(set(artist_names), key = lambda artist_names: artist_names)
     return artist_names
 
+# ================================================
+# ----------------- R O U T E S ------------------
+# ================================================
+
+
+@album_blueprint.route('/album/<album_id>', methods=['POST'])
+def album_delete(album_id):
+    album_repository.delete_1_album_by_id(album_id)
+    return redirect("/items/all/all")
+
+
+@album_blueprint.route('/album/<album_id>', methods=['GET'])
+def confirm_album_delete(album_id):
+    album=album_repository.select_1_album_by_id(album_id)
+    return render_template("/albums/delete_album.html", album = album)
+
+
+
+
 
 @album_blueprint.route('/album/new', methods=['GET'])
 def show_form_new_album(
@@ -72,8 +91,7 @@ def get_form_new_album():
     if error == None:
         new_album = Album(artist, input_album)
         album_repository.add_album(new_album)
-        
-        return render_template("/index.html")
+        return redirect("/item/new")
 
     else:
         return render_template(

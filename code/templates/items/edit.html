@@ -1,31 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="form_container">
-    <form id="edit_item" class="form" action="/edit" method="post">
-        <p class="id">id: {{item.id}}</p>
-        <p class="artist">artist: {{item.album.artist.last_name}}</p>
-        <p class="album">album: {{item.album.title}}</p>
-    
-        <label class="label_support" for="support">support</label>
-        <input class="value_support" type="text" name="support" id="support" value="{{item.support}}">
-        
-        <label class="label_cost" for="cost">cost £</label>
-        <input class="value_cost" type="number" name="cost" id="cost" value="{{item.cost}}">
-        
-        <label class="label_price" for="selling_price">selling_price £</label>
-        <input class="value_price" type="number" name="selling_price" id="selling_price" value="{{item.selling_price}}">
-    
-        <p class="label_markup">markup £</p>
-        <p class="value_markup">{{(item.selling_price - item.cost)|round(2)}}</p>
-        
-        <label class="label_stock" for="in_stock">in stock</label>
-        <input class="value_stock" type="number" name="in_stock" id="in_stock" value="{{item.in_stock}}">
-        
-        <label class="label_ordered" for="ordered">ordered</label>
-        <input class="value_ordered" type="number" name="ordered" id="ordered" value="{{item.ordered}}">
-    
-        <input class="submit" type="submit" value="submit">
-    </form>
-</div>
+
+
+
+
 {% endblock %}

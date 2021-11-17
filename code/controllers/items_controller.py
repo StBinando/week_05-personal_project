@@ -1,3 +1,4 @@
+from types import MethodType
 from flask import Flask, redirect, render_template, request
 from flask import Blueprint
 from collections import Counter
@@ -35,14 +36,69 @@ def create_list_of_all_album_titles():
 
 
 
-# ===================
-# --- R O U T E S ---
-# ===================
+# ================================================
+# ----------------- R O U T E S ------------------
+# ================================================
 
-@items_blueprint.route('/item/<item_id>', methods=['POST'])
+
+
+@items_blueprint.route('/item/<item_id>')
 def delete_item(item_id):
+    selected_item = item_repository.select_1_item_by_id(item_id)
+    all_items = item_repository.show_all()
+    count_items_for_album = 0
+    count_items_for_artist = 0
+    for item in all_items:
+        if item.album.artist.id == selected_item.album.artist.id:
+            count_items_for_artist +=1
+            if item.album.id == selected_item.album.id:
+                count_items_for_album +=  1
+
+    # last item for the artist - artist will be deleted
+    if count_items_for_artist == 1:
+        artist_id = selected_item.album.artist.id
+        return redirect(f'/artist/{artist_id}')
+
+    # last item for the artist - album will be deleted
+    elif count_items_for_album == 1:
+        album_id = selected_item.album.id
+        return redirect(f'/album/{album_id}')
+    
     item_repository.delete_1_item_by_id(item_id)
-    return redirect('/items/<filter>/<selection>')
+    return redirect('/items/all/all')
+
+
+@items_blueprint.route('/item/<item_id>/edit', methods=['GET'])
+def show_form_edit_item(
+    item_id
+    # error = None,
+    # input_artist = "",
+    # input_album = "",
+    # input_support = "",
+    # input_cost = 0.00,
+    # input_price = 0.00,
+    # input_in_stock = 0,
+    # input_ordered = 0,
+    ):
+
+    # full_names_list = create_list_of_all_artists_full_names()
+    # titles_list = create_list_of_all_album_titles()
+
+    pass
+
+    return render_template(
+        "/items/edit.html",
+        # error = error,
+        # input_artist = input_artist,
+        # input_album = input_album,
+        # input_support = input_support,
+        # input_cost = input_cost,
+        # input_price = input_price,
+        # input_in_stock = input_in_stock,
+        # input_ordered = input_ordered,
+        # artists = full_names_list,
+        # albums = titles_list
+        )
 
 @items_blueprint.route('/item/new', methods=['GET'])
 def show_form_new_item(
@@ -72,7 +128,6 @@ def show_form_new_item(
         artists = full_names_list,
         albums = titles_list
         )
-        
 
 
 @items_blueprint.route('/item/new', methods=['POST'])
@@ -127,8 +182,8 @@ def get_form_new_item():
     if error == None:
         new_item = Item(album, input_support, input_cost, input_price, input_in_stock, input_ordered)
         item_repository.add_item(new_item)
-        
-        return redirect("/items")
+        return redirect("/item/n")
+
     else:
         full_names_list = create_list_of_all_artists_full_names()
         titles_list = create_list_of_all_album_titles()
