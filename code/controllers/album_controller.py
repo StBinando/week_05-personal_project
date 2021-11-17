@@ -100,3 +100,9 @@ def get_form_new_album():
             input_album = input_album,
             full_names_list = full_names_list
             )
+
+
+
+@album_blueprint.route('/album/<album_id>/edit')
+def get_form_edit_album(album_id):
+    return render_template("/under_construction.html")

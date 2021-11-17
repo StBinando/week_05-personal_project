@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form action="/album/{{album.id}}" method="post">
-    <p>this is the last item for this album:</p>
-    <p>{{album.title}}</p>
-    <p>by</p>
-    <p>{{("" if album.artist.first_name == None else album.artist.first_name+" ")+album.artist.last_name}}</p>
-    <p>by proceeding, all info of this albumwill be deleted from the database</p>
-    <input type="submit" value="confirm?">
+<form class="confirm" action="/album/{{album.id}}" method="post">
+    <p class="confirm_line1">this is the last item for this album:</p>
+    <p class="form_name">{{album.title}}</p>
+    <p class="confirm_line2">by</p>
+    <p class="form_name">{{("" if album.artist.first_name == None else album.artist.first_name+" ")+album.artist.last_name}}</p>
+    <p class="confirm_line2">by proceeding,<br>all info of this album will be <span class="alert">permanently deleted</span><br>from the database</p>
+    <input class="submit" type="submit" value="confirm?">
 </form>
 {% endblock %}

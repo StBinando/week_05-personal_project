@@ -65,3 +65,7 @@ def get_form_new_artist():
             error = error,
             input_artist = input_artist,
             )
+
+@artists_blueprint.route('/artist/<artist_id>/edit')
+def get_form_edit_artist(artist_id):
+    return render_template("/under_construction.html")

@@ -6,14 +6,16 @@
     <form id="edit_item" class="form_new" action="/item/{{item.id}}/edit" method="post">
         <p class="form_name">edit item #{{item.id}}</p>
         <p class="form_note">fields marked with (*) are required</p>
-        <div>
-            <p>artist:</p>
-            <p class="form_name">{{item.album.artist.last_name}}</p>
+        <p class="label">artist:</p>
+        <p class="value_blocked">{{item.album.artist.last_name}}</p>
+        <div class="form_note_div">
             <p class="form_note">(to edit the artist please click on the button)</p>
             <button class="goto"><a href="/artist/{{item.album.artist.id}}/edit">►</a></button>
-
-            <p>album:</p>
-            <p>{{item.album.title}}</p>
+        </div>
+        
+        <p class="label">album:</p>
+        <p class="value_blocked">{{item.album.title}}</p>
+        <div class="form_note_div">
             <p class="form_note">(to edit the album please click on the button)</p>
             <button class="goto"><a href="/album/{{item.album.id}}/edit">►</a></button>
         </div>
@@ -27,8 +29,8 @@
         <label class="label" for="price">selling price £</label>
         <input class="value" type="number" name="price" id="price" value="{{item.selling_price}}">
 
-        <p>previous markup: £</p>
-        <p class="form_name">{{item.selling_price - item.cost}}</p>
+        <p class="label">previous markup: £</p>
+        <p class="value_blocked">{{(item.selling_price - item.cost)|round(2)}}</p>
 
         <label class="label" for="in_stock">in stock</label>
         <input class="value" type="number" name="in_stock" id="in_stock" value="{{item.in_stock}}">

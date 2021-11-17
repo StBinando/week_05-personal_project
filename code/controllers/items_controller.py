@@ -42,7 +42,6 @@ def create_list_of_all_album_titles():
 # ----------------- R O U T E S ------------------
 # ================================================
 
-
 # ===================== EDIT =====================
 @items_blueprint.route('/item/<item_id>/edit', methods=['GET'])
 def edit_item(item_id):
