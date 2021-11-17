@@ -187,6 +187,7 @@ def get_form_new_item():
     elif input_album == "": error = "Title is required"
     elif title_exists == False: error = "the album typed doesn't exists. Please click on the button to create it"
     elif artist_album_exists == False: error = "This album doesn't exists with this artist. Please check the combination of artist and album, or create a new one"
+        
     elif input_support == "": error = "Support is required"
     elif input_cost == "": error = "Cost is required"
     elif input_price == "": error = "Selling price is required"
@@ -226,7 +227,16 @@ def get_form_new_item():
 @items_blueprint.route('/items/search', methods=['POST'])
 def get_search():
     result = request.form['search']
-    return redirect(f"/items/search_result{result}")
+    full_names_list = create_list_of_all_artists_full_names()
+    name_exists = False
+    for name in full_names_list:
+        if name == result:
+            name_exists = True
+            break
+    if name_exists:
+        return redirect(f"/items/search_result{result}")
+    else:
+        return redirect('/items/all/all')
 
 @items_blueprint.route('/items/search_result<result>', methods=['GET'])
 def show_search(result):

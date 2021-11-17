@@ -56,7 +56,7 @@ def get_form_new_artist():
                 error = "This artist already exists"
 
     if error == None:
-        new_artist = Artist(input_artist[1], input_artist[0])
+        new_artist = Artist(input_artist[1], input_artist[0] if input_artist[0] != "" else None)
         artist_repository.add_artist(new_artist)
         return redirect("/item/new")
     else:

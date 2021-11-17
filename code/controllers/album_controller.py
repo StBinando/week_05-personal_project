@@ -85,7 +85,7 @@ def get_form_new_album():
                 error = "This album, by this artist, already exists"
                 break
             else:
-                artist = artist_repository.select_1_artist_by_id(album.artist.id)
+                artist = artist_repository.select_artist_by_full_name(input_artist)
 
     if error == None:
         new_album = Album(artist, input_album)
