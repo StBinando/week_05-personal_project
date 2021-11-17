@@ -16,6 +16,11 @@ def add_item(item):
     item.id = id
     return item
 
+def update_item(item):
+    sql = "UPDATE items SET (album_id, support, cost, selling_price, in_stock, ordered) = (%s, %s, %s, %s, %s, %s) WHERE id = %s"
+    values = [item.album.id, item.support, item.cost, item.selling_price, item.in_stock, item.ordered, item.id]
+    run_sql(sql, values)
+
 def show_all():
     items = []
     sql = "SELECT * FROM items"
@@ -114,3 +119,5 @@ def select_items_by_album_id(album_id):
         if i.album.id == album_id:
             album_items.append(i)
     return album_items
+
+

@@ -2,18 +2,18 @@ from flask import Flask, redirect, render_template, request
 from flask import Blueprint
 from models.album import Album
 
-
-# CLASSES
+# =================== CLASSES ====================
 from models.artist import Artist
 
-#  REPOSITORIES
+# ================= REPOSITORIES =================
 import repositories.artist_repository as artist_repository
 import repositories.album_repository as album_repository
 from repositories.customer_item_repository import show_all
 
 album_blueprint = Blueprint("album", __name__)
 
-# --- UTILITY FUNCTION --- creates ordered list of unique values for ALL artists FULL NAME
+# ============== UTILITY FUNCTION ================
+# creates ordered list of unique values for ALL artists FULL NAME
 def create_list_of_all_artists_full_names():
     all_artists_unfiltered = artist_repository.show_all()
     artist_names= []
@@ -23,16 +23,17 @@ def create_list_of_all_artists_full_names():
     artist_names = sorted(set(artist_names), key = lambda artist_names: artist_names)
     return artist_names
 
+
+
 # ================================================
 # ----------------- R O U T E S ------------------
 # ================================================
 
-
+# =================== DELETE =====================
 @album_blueprint.route('/album/<album_id>', methods=['POST'])
 def album_delete(album_id):
     album_repository.delete_1_album_by_id(album_id)
     return redirect("/items/all/all")
-
 
 @album_blueprint.route('/album/<album_id>', methods=['GET'])
 def confirm_album_delete(album_id):
@@ -41,7 +42,7 @@ def confirm_album_delete(album_id):
 
 
 
-
+# ================== ADD ========================
 
 @album_blueprint.route('/album/new', methods=['GET'])
 def show_form_new_album(
@@ -60,8 +61,6 @@ def show_form_new_album(
         full_names_list = full_names_list
         )
         
-
-
 @album_blueprint.route('/album/new', methods=['POST'])
 def get_form_new_album():
 

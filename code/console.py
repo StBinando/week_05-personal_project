@@ -10,22 +10,22 @@ from models.customer_item import CustomerItem
 import repositories.artist_repository as artist_repository
 import repositories.album_repository as album_repository
 import repositories.item_repository as item_repository
-import repositories.customer_repository as customer_repository
-import repositories.customer_item_repository as customer_item_repository
+# import repositories.customer_repository as customer_repository
+# import repositories.customer_item_repository as customer_item_repository
 
 import os
-os.system('psql -d rubberduck_records -f db/rubberduck_records.sql')
+os.system('psql -d record_shop -f db/record_shop.sql')
 
 
 # --------------------------- CREATES OBJECTS FOR TESTS ------------------------------
-# artist_1 = Artist("Bowie", "David")
-# artist_2 = Artist("Pop", "Iggy")
+artist_1 = Artist("Bowie", "David")
+artist_2 = Artist("Pop", "Iggy")
 
-# album_1 = Album(artist_1, "Low")
-# album_2 = Album(artist_1, "Pin-Up")
+album_1 = Album(artist_1, "Low")
+album_2 = Album(artist_1, "Pin-Up")
 
-# item_1 = Item(album_1, "CD", 6.50, 9.99, 7, 2)
-# item_2 = Item(album_1, "Vinyl", 9.50, 18.99, 2, 0)
+item_1 = Item(album_1, "CD", 6.50, 9.99, 7, 2)
+item_2 = Item(album_1, "Vinyl", 9.50, 18.99, 2, 0)
 
 # customer_1 = Customer("John Smith", "+447857634091")
 
@@ -33,10 +33,11 @@ os.system('psql -d rubberduck_records -f db/rubberduck_records.sql')
 
 
 
+
 # # --------------------------- TESTS FOR ARTIST REPO ------------------------------
-# print("------------- ADDS 1st ARTIST ----------------")
-# result = artist_repository.add_artist(artist_1)
-# print(result.__dict__)
+print("------------- ADDS 1st ARTIST ----------------")
+result = artist_repository.add_artist(artist_1)
+print(result.__dict__)
 
 # print("------------- ADDS 2nd ARTIST ----------------")
 # result = artist_repository.add_artist(artist_2)
@@ -58,9 +59,9 @@ os.system('psql -d rubberduck_records -f db/rubberduck_records.sql')
 #     print(row.__dict__)
 
 # # --------------------------- TESTS FOR ALBUM REPO ------------------------------
-# print("------------- ADDS 1st ALBUM ----------------")
-# result = album_repository.add_album(album_1)
-# print(result.__dict__)
+print("------------- ADDS 1st ALBUM ----------------")
+result = album_repository.add_album(album_1)
+print(result.__dict__)
 
 # print("------------- ADDS 2nd ALBUM ----------------")
 # result = album_repository.add_album(album_2)
@@ -83,9 +84,9 @@ os.system('psql -d rubberduck_records -f db/rubberduck_records.sql')
 
 
 # # --------------------------- TESTS FOR ITEM REPO ------------------------------
-# print("------------- ADDS 1st ITEM ----------------")
-# result = item_repository.add_item(item_1)
-# print(result.__dict__)
+print("------------- ADDS 1st ITEM ----------------")
+result = item_repository.add_item(item_1)
+print(result.__dict__)
 
 # print("------------- ADDS 2nd ITEM ----------------")
 # result = item_repository.add_item(item_2)
@@ -301,3 +302,11 @@ os.system('psql -d rubberduck_records -f db/rubberduck_records.sql')
 # results = customer_item_repository.select_all_customer_item_by_item_id(item_3.id)
 # for row in results:
 #     print(row.__dict__)
+
+# # --------------------------- TESTS FOR UPDATE ITEM ONLY ------------------------------
+print("------------- UPDATE 1st ITEM ----------------")
+item_1.support = "Tape"
+item_repository.update_item(item_1)
+result = item_repository.select_1_item_by_id(1)
+print(result.__dict__)
+

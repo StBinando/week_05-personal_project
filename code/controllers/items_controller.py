@@ -13,7 +13,8 @@ import repositories.customer_item_repository as customer_item_repository
 items_blueprint = Blueprint("items", __name__)
 
 
-# --- UTILITY FUNCTION --- creates ordered list of unique values for ALL artists FULL NAME
+# --- UTILITY FUNCTION ---
+# creates ordered list of unique values for ALL artists FULL NAME
 def create_list_of_all_artists_full_names():
     all_artists_unfiltered = artist_repository.show_all()
     artist_names= []
@@ -23,7 +24,8 @@ def create_list_of_all_artists_full_names():
     artist_names = sorted(set(artist_names), key = lambda artist_names: artist_names)
     return artist_names
 
-# --- UTILITY FUNCTION --- creates ordered list of unique values for ALL album titles
+# --- UTILITY FUNCTION ---
+# creates ordered list of unique values for ALL album titles
 def create_list_of_all_album_titles():
     all_albums =album_repository.show_all()
     albums = []
@@ -41,7 +43,33 @@ def create_list_of_all_album_titles():
 # ================================================
 
 
+# ===================== EDIT =====================
+@items_blueprint.route('/item/<item_id>/edit', methods=['GET'])
+def edit_item(item_id):
+    item = item_repository.select_1_item_by_id(item_id)
+    return render_template("/items/edit.html", item=item)
 
+@items_blueprint.route('/item/<item_id>/edit', methods=['POST'])
+def get_form_edit_item(item_id):
+    # error = None
+    item = item_repository.select_1_item_by_id(item_id)
+    # input_artist = request.form['artist']
+    # input_album = request.form['album']
+    item.support = request.form['support']
+    item.cost = request.form['cost']
+    item.price = request.form['price']
+    item.in_stock = request.form['in_stock']
+    item.ordered = request.form['ordered']
+
+    # artist = artist_repository.select_artist_by_full_name(input_artist).id
+    # album = album_repository.select_by_title(input_album).id
+
+    item_repository.update_item(item)
+    return redirect('/items/all/all')
+
+
+
+# =================== DELETE =====================
 @items_blueprint.route('/item/<item_id>')
 def delete_item(item_id):
     selected_item = item_repository.select_1_item_by_id(item_id)
@@ -68,18 +96,7 @@ def delete_item(item_id):
     return redirect('/items/all/all')
 
 
-@items_blueprint.route('/item/<item_id>/edit', methods=['GET'])
-def show_form_edit_item(
-    item_id
-    # error = None,
-    # input_artist = "",
-    # input_album = "",
-    # input_support = "",
-    # input_cost = 0.00,
-    # input_price = 0.00,
-    # input_in_stock = 0,
-    # input_ordered = 0,
-    ):
+
 
     # full_names_list = create_list_of_all_artists_full_names()
     # titles_list = create_list_of_all_album_titles()
@@ -100,6 +117,7 @@ def show_form_edit_item(
         # albums = titles_list
         )
 
+# ===================== ADD ======================
 @items_blueprint.route('/item/new', methods=['GET'])
 def show_form_new_item(
     error = None,
@@ -128,7 +146,6 @@ def show_form_new_item(
         artists = full_names_list,
         albums = titles_list
         )
-
 
 @items_blueprint.route('/item/new', methods=['POST'])
 def get_form_new_item():
@@ -182,7 +199,7 @@ def get_form_new_item():
     if error == None:
         new_item = Item(album, input_support, input_cost, input_price, input_in_stock, input_ordered)
         item_repository.add_item(new_item)
-        return redirect("/item/n")
+        return redirect("/items/all/all")
 
     else:
         full_names_list = create_list_of_all_artists_full_names()
@@ -204,11 +221,12 @@ def get_form_new_item():
             )
 
 
+
+# ==================== SEARCH =====================
 @items_blueprint.route('/items/search', methods=['POST'])
 def get_search():
     result = request.form['search']
     return redirect(f"/items/search_result{result}")
-
 
 @items_blueprint.route('/items/search_result<result>', methods=['GET'])
 def show_search(result):
@@ -256,8 +274,7 @@ def show_search(result):
         )
 
 
-
-#                           INVENTORY FILTER/INITIAL
+# ============== FILTER / INITIALS ==================
 # returns a list of items to display
 # based on "filter" (availability/genre/label) ONLY, doesn't use "selection" (initials)
 # @items_blueprint.route('/items?filter=<filter>&selection=<selection', methods=['GET'])
@@ -339,8 +356,3 @@ def inventory_selected(filter = "all", selection = "all"):
         pre_booked_items = pre_booked_items # unordered list of the number of customers_items for filtered items
     )
 
-#                            EDIT RECORD
-@items_blueprint.route('/items/:<item_id>/edit')
-def edtit_item(item_id):
-    item = item_repository.select_1_item_by_id(item_id)
-    return render_template("/items/edit.html", item=item)
