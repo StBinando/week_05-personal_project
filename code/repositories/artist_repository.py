@@ -49,18 +49,28 @@ def select_by_selection(selection = "all_albums"):
 
 def select_filtered(filter = "all"):
     artists = []
-    if filter == "all":
-        artists = show_all()
-    else:
-        items = item_repository.select_filtered(filter)
-        artists_id = []
-        for item in items:
-            artists_id.append(item.album.artist.id)
-        artists_id = set(artists_id)
-        for id in artists_id:
-            artist = select_1_artist_by_id(id)
-            artists.append(artist)
+    items = item_repository.select_filtered(filter)
+    artists_id = []
+    for item in items:
+        artists_id.append(item.album.artist.id)
+    artists_id = set(artists_id)
+    for id in artists_id:
+        artist = select_1_artist_by_id(id)
+        artists.append(artist)
     return artists
+    # artists = []
+    # if filter == "all":
+    #     artists = show_all()
+    # else:
+    #     items = item_repository.select_filtered(filter)
+    #     artists_id = []
+    #     for item in items:
+    #         artists_id.append(item.album.artist.id)
+    #     artists_id = set(artists_id)
+    #     for id in artists_id:
+    #         artist = select_1_artist_by_id(id)
+    #         artists.append(artist)
+    # return artists
 
 def select_by_filter_and_selection(filter = "all", selection = "all_albums"):
     filtered = select_filtered(filter)
