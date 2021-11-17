@@ -56,7 +56,7 @@ def get_form_edit_item(item_id):
     # input_album = request.form['album']
     item.support = request.form['support']
     item.cost = request.form['cost']
-    item.price = request.form['price']
+    item.selling_price = request.form['price']
     item.in_stock = request.form['in_stock']
     item.ordered = request.form['ordered']
 

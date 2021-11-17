@@ -11,7 +11,7 @@
         <p class="form_name">enter new album</p>
         <p class="form_note">fields marked with (*) are required</p>
         
-        <label class="label" for="artist">Select artist</label>
+        <label class="label" for="artist">* select artist</label>
         <input class="value" type="text" name="artist" id="artist" list="datalist1" value="{{input_artist}}">
         <datalist id = "datalist1">
             {% for name in full_names_list %}
@@ -23,11 +23,16 @@
             <button class="goto"><a href="/artist/new">►</a></button>
         </div>
 
-        <label class="label" for="title_value">title</label>
+        <label class="label" for="title_value">* title</label>
         <input class="value" type="text" name="title_value" id="title_value" value="{{input_album}}">
     
         <input class="submit" type="submit" value="submit">
     </form>
+
+    <div class="backdiv">
+        <button class="back"><a href="/item/new">◀︎</a> BACK</button>
+    </div>
+
 
 </div>
 {% endblock %}

@@ -46,8 +46,8 @@
     </div>
 
     <main>
-{% if error != None %}            
-        <p class="results_txt">{{error}}</p>
+        {% if error != None %}            
+            <p class="results_txt">{{error}}</p>
         {% else %}
             <div class="results_txt">
                 <p>Displaying: {{filter}} albums</p>
@@ -111,14 +111,18 @@
                                                                     {{pre_booked_items[item.id]}}</span>
                                                         <span class="cost">£{{item.cost}}</span>
                                                         <span class="price">£{{item.selling_price}}</span>
-                                                        <span class="markup">£{{(item.selling_price - item.cost)|round(2)}}</span>
+                                                        <span class="
+                                                        {% if (item.selling_price - item.cost) < 0 %}
+                                                            negative
+                                                        {% else %}
+                                                        markup
+                                                        {% endif %}">£{{(item.selling_price - item.cost)|round(2)}}</span>
                                                     </span>
-                                                    <div class="edit">
-                                                        <button><a href="/item/{{item.id}}">✘</a></button>
-                                                        <button><a href="/item/{{item.id}}/edit">✎</a></button>
+                                                    <span class="edit">
+                                                        <button class="del_btn"><a href="/item/{{item.id}}">✘</a></button>
+                                                        <button class="edt_btn"><a href="/item/{{item.id}}/edit">✎</a></button>
                                                         <!-- ✎✘                                                     -->
-
-                                                    </div>
+                                                    </span>
 
                                                 </p>
                                             {% endfor %}

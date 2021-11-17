@@ -10,7 +10,7 @@
         <p class="form_name">enter new item</p>
         <p class="form_note">fields marked with (*) are required</p>
         
-        <label class="label" for="artist">Select artist</label>
+        <label class="label" for="artist">* select artist</label>
         <input class="value" type="text" name="artist" id="artist" list="datalist1" value="{{input_artist}}">
         <datalist id = "datalist1">
             {% for artist in artists %}
@@ -23,7 +23,7 @@
         </div>
         
         
-        <label class="label" for="album">Select album</label>
+        <label class="label" for="album">* select album</label>
         <input class="value" type="text" name="album" id="album" list="datalist2"  value="{{input_album}}">
         <datalist id = "datalist2">
             {% for album in albums %}
@@ -36,13 +36,13 @@
         </div>
         
         
-        <label class="label" for="support">support</label>
+        <label class="label" for="support">* support</label>
         <input class="value" type="text" name="support" id="support" value="{{input_support}}">
         
-        <label class="label" for="cost">cost £</label>
+        <label class="label" for="cost">* cost £</label>
         <input class="value" type="number" name="cost" id="cost" value="{{input_cost}}">
         
-        <label class="label" for="price">selling price £</label>
+        <label class="label" for="price">* selling price £</label>
         <input class="value" type="number" name="price" id="price" value="{{input_price}}">
         
         <label class="label" for="in_stock">in stock</label>

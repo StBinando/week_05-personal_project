@@ -5,23 +5,26 @@
     <p class="error">error: {{error}}</p>
 {% endif %}
 
-<div class="form_container">
+
+<div>
     <form id="form_new_artist" class="form_new" action="/artist/new" method="post">
         <p class="form_name">please enter new artist</p>
         <p class="form_note">fields marked with (*) are required</p>
 
-        <label class="label" for="first_name_value">first name</label> 
+        <label class="label" for="first_name_value">first name</label>
         <input class="value" type="text" name="first_name_value" id="first_name_value" value="{{input_artist[0]}}">
         <span class="form_note">("The" for bands or leave blank in not applicable)</span>
 
-        <label class="label" for="last_name_value">(*)last name</label>
+        <label class="label" for="last_name_value">* last name</label>
         <input class="value" type="text" name="last_name_value" id="{{last_name_value}}" value="{{input_artist[1]}}">
         
     
         <input class="submit" type="submit" value="submit">
     </form>
-
-    <button class="back"><a href="/item/new">◀︎</a> BACK</button>
+        
+    <div class="backdiv">
+        <button class="back"><a href="/item/new">◀︎</a> BACK</button>
+    </div>
 
 </div>
 {% endblock %}
