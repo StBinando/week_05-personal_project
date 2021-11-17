@@ -367,134 +367,108 @@ color: #000;
 /*             EDIT PAGE                */
 /* ==================================== */
 
-.form_container{
-    background-color: #000000bb;
+.error{
+    background: #eb101b;
+    color: #000000;
+    font-size: 1.2em;
+    width: 60%;
+    padding: 7px 20px;
+    margin: auto;
+    text-align: center;
+    border-radius: 2em;
+    margin-bottom: 7px;
+}
+.form_new{
+    color: #fff;
+    background-color: #000000c9;
     width: 400px;
     border-radius: 30px;
+    width: 60%;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
 }
 
-#edit_item{
-    padding: 30px;
-    margin-top:30px;
-    display:grid;
-    grid-template-areas:
-        'id id'
-        'artist artist'
-        'album album'
-        'label_support value_support'
-        'label_cost value_cost'
-        'label_price value_price'
-        'label_markup value_markup'
-        'label_stock value_stock'
-        'label_ordered value_ordered'
-        'submit submit'
-        ;
-    grid-template-columns: 4fr 3fr;
+.form_name{
+    font-size: 1.8em;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 16px;
+}
+.form_note{
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 0 20px;
+}
+.form_note_div{
+    display: flex;
+    align-items: baseline;
+    justify-content:right;
+    margin:auto;
+}
+
+.goto{
+    background: hsl(46, 100%, 49%);
+    height: 2.8em;
+    width: 2.8em;
+    display: inline-flex;
     align-items: center;
+    justify-content: center;
+    border: 5px solid #000;
+    border-radius: 50%;
+    margin: 0 3px;
 }
 
-.id{
-    grid-area: id;
-    text-align: center;
-    color: #fff;
-    padding: .2em 0;
+.goto a{
+    font-size: 1.3em;
+    color: #000;
+    text-decoration: none;
 }
-.artist{
-    grid-area: artist;
-    text-align: center;
-    color: #fff;
+
+.back{
+    background: hsl(46, 100%, 49%);
+    height: 2.8em;
+    width: 2.8em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 5px solid #000;
+    border-radius: 50%;
+    margin: 0 3px;
 }
-.album{
-    grid-area: album;
-    text-align: center;
-    color: #fff;
+
+.back a{
+    font-size: 1.3em;
+    color: #000;
+    text-decoration: none;
 }
-.label_support{
-    grid-area: label_support;
+
+.uc{
+    margin-top: 15px;
+    color:slategray;
+    margin: 15px 30px;
+}
+
+.label{
+    font-size: 1.3em;
     text-align: end;
     padding-right: 10px;
     color: #fff;
+    width: 45%;
+    margin: 10px 0;
+    height: 20px;
 }
-.value_support{
+.value{
     font-family: 'Special Elite', cursive;
-    grid-area: value_support;
+    font-size: 1.2em;
     padding: 5px;
-    width: 50px;
+    width: 50%;
     border-radius: 7px;
     margin: 2px;
-}
-
-.label_cost{
-    grid-area: label_cost;
-    text-align: end;
-    padding-right: 10px;
-    color: #fff;
-}
-.value_cost{
-    font-family: 'Special Elite', cursive;
-    grid-area: value_cost;
-    padding: 5px;
-    width: 50px;
-    border-radius: 7px;
-    margin: 2px;
-}
-
-.label_price{
-    grid-area: label_price;
-    text-align: end;
-    padding-right: 10px;
-    color: #fff;
-}
-.value_price{
-    font-family: 'Special Elite', cursive;
-    grid-area: value_price;
-    padding: 5px;
-    width: 50px;
-    border-radius: 7px;
-    margin: 2px;
-}
-
-.label_markup{
-    grid-area: label_markup;
-    text-align: end;
-    padding-right: 10px;
-    color: #fff;
-}
-.value_markup{
-    grid-area: value_markup;
-    padding: 5px;
-    color: #fff;
-    margin: 2px;
-}
-
-.label_stock{
-    grid-area: label_stock;
-    text-align: end;
-    padding-right: 10px;
-    color: #fff;
-}
-.value_stock{
-    font-family: 'Special Elite', cursive;
-    grid-area: value_stock;
-    padding: 5px;
-    width: 50px;
-    border-radius: 7px;
-    margin: 2px;
-}
-
-.label_ordered{
-    grid-area: label_ordered;
-    text-align: end;
-    padding-right: 10px;
-    color: #fff;
-}
-.value_ordered{
-    font-family: 'Special Elite', cursive;
-    grid-area: value_ordered;
-    padding: 5px;
-    width: 50px;
-    border-radius: 7px;
-    margin: 2px;
+    /* margin: 10px 0; */
+    height: 20px;
 }
 
 .submit{
@@ -507,6 +481,7 @@ color: #000;
     font-size: 1.1em;
     border-radius: .7em;
     border-style: none;
-    margin-top: 37px;
+    margin: auto;
+    margin-top: 17px;
     justify-self: center;    
 }

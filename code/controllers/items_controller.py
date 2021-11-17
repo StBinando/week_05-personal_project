@@ -38,16 +38,22 @@ def create_list_of_all_album_titles():
 # ===================
 # --- R O U T E S ---
 # ===================
+
+@items_blueprint.route('/item/<item_id>', methods=['POST'])
+def delete_item(item_id):
+    item_repository.delete_1_item_by_id(item_id)
+    return redirect('/items/<filter>/<selection>')
+
 @items_blueprint.route('/item/new', methods=['GET'])
 def show_form_new_item(
-    error = "",
+    error = None,
     input_artist = "",
     input_album = "",
     input_support = "",
-    input_cost = "",
-    input_price = "",
-    input_in_stock = "",
-    input_ordered = "",
+    input_cost = 0.00,
+    input_price = 0.00,
+    input_in_stock = 0,
+    input_ordered = 0,
     ):
 
     full_names_list = create_list_of_all_artists_full_names()

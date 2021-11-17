@@ -1,37 +1,33 @@
 {% extends "base.html" %}
-
-
 {% block content %}
 
-<hr>
-<p>error: {{error}}</p>
-<hr>
+{% if error!=None %}
+    <p class="error">error: {{error}}</p>
+{% endif %}
 
-<p>enter new album
-    <br>
-    fields marked with (*) are required
-</p>
 
-<div class="form_album">
-    <form id="form_album" class="form" action="/album/new" method="post">
-        <label class="input_label" for="artist">
-            Select artist
-            <br>
-            <p>(if the artist in not in the list click on the button to create a new one)</p>
-        </label>
-        <input class="input_value" type="text" name="artist" id="artist" list="datalist1" value="{{input_artist}}">
+<div class="form_container">
+    <form id="form_album" class="form_new" action="/album/new" method="post">
+        <p class="form_name">enter new album</p>
+        <p class="form_note">fields marked with (*) are required</p>
+        
+        <label class="label" for="artist">Select artist</label>
+        <input class="value" type="text" name="artist" id="artist" list="datalist1" value="{{input_artist}}">
         <datalist id = "datalist1">
             {% for name in full_names_list %}
                 <option value='{{name}}'></option>
             {% endfor %}
         </datalist>
+        <div class="form_note_div">
+            <p class="form_note">(if the artist in not in the list click on the button to create a new one)</p>
+            <button class="goto"><a href="/artist/new">►</a></button>
+        </div>
 
-        <label class="title_label" for="title_value">title</label>
-        <input class="title_value" type="text" name="title_value" id="title_value" value="{{input_album}}">
+        <label class="label" for="title_value">title</label>
+        <input class="value" type="text" name="title_value" id="title_value" value="{{input_album}}">
     
         <input class="submit" type="submit" value="submit">
     </form>
-    <button><a href="/artist/new">create new artist</a></button>
-    <button class="back"><a href="/item/new">BACK to create new item</a></button>
+
 </div>
 {% endblock %}
