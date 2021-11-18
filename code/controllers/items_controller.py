@@ -262,7 +262,7 @@ def get_search():
     albums_list = create_list_of_all_album_titles_for_search()
     album_exists =False
     for album in albums_list:
-        if album == result:
+        if album == result[4:]:
             album_exists = True
             break
     if name_exists or album_exists:
