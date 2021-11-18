@@ -7,7 +7,8 @@ import repositories.artist_repository as artist_repository
 import repositories.album_repository as album_repository
 import repositories.customer_item_repository as customer_item_repository
 
-
+# RETURNS A LIST OF ALL ITEMS OBJECTS FILTERED
+# BY THE SELECTED AVAILABILITY
 def select_filtered(filter = "all"):
 
     # IF THE FILTER IS "PRE BOOKED ORDERS"
@@ -46,7 +47,7 @@ def select_filtered(filter = "all"):
 
         # ...THEN IT RUNS THE SQL
         results = run_sql(sql)
-        
+
         # AND CREATES THE LIST OF ITEM OBJECTS
         items = []
         for row in results:
