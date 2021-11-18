@@ -90,7 +90,8 @@ def get_form_edit_item(item_id):
     # album = album_repository.select_by_title(input_album).id
 
     item_repository.update_item(item)
-    return redirect('/items/all/all')
+    return redirect(f'/items/search_result(t) {item.album.title}')
+    # return redirect('/items/all/all')
 
 
 
@@ -225,7 +226,9 @@ def get_form_new_item():
     if error == None:
         new_item = Item(album, input_support, input_cost, input_price, input_in_stock, input_ordered)
         item_repository.add_item(new_item)
-        return redirect("/items/all/all")
+        error = f"displaying all items for album {new_item.album.title}"
+        return redirect(f"/items/search_result(t) {new_item.album.title}")
+        # return redirect("/items/all/all")
 
     else:
         full_names_list = create_list_of_all_artists_full_names()
@@ -275,11 +278,15 @@ def get_search():
 def show_search(result):
 
     if result[0:3] == "(t)":
+        choice = "album"
+        choice_string = result[0:3]
         title = result[4:]
         album = album_repository.select_by_title(title)[0]
         items = item_repository.select_items_by_album_id(album.id)
         artist_found = artist_repository.select_1_artist_by_id(album.artist.id)
     else:
+        choice = "artist"
+        choice_string = result
         artist_found = artist_repository.select_artist_by_full_name(result)
         items = item_repository.select_items_by_artist_id(artist_found.id)
     items = sorted(items, key=lambda item: (item.album.title, item.support))
@@ -303,6 +310,11 @@ def show_search(result):
                 pre_booked_items.append(pbi.item.id)
     pre_booked_items = Counter(pre_booked_items)
 
+    # if choice == "artist":
+    #     error = f"displaying items by {choice_string}"
+    # else:
+    #     full_name = ("" if artist.first_name == None else f"{artist.first_name} ")+(artist.last_name)
+    #     error = f"displaying items for {choice_string} by {full_name}"
     return render_template(
         "items/inventory.html",
         filter ="all",
